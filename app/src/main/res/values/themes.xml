@@ -1,0 +1,59 @@
+<resources>
+
+    <style name="Theme.VKR.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.VKR.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextForTextView</item>
+    </style>
+
+    <style name="TextForTextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+    </style>
+
+    <style name="TextForButton">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="EditTextPassword">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">300sp</item>
+        <item name="android:layout_height">50sp</item>
+        <item name="android:textAppearance">@style/TextForTextView</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:background">@drawable/edit_text_password</item>
+        <item name="android:layout_margin">20sp</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">10sp</item>
+        <item name="android:textAppearance">@style/TextForButton</item>
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="ButtonVisibility">
+        <item name="android:background">@drawable/button_visibility</item>
+    </style>
+
+    <style name="NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

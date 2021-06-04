@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.login.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fragment"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:ignore="ScrollViewSize">
+
+        <TextView
+            style="@style/TextView"
+            android:layout_marginTop="30sp"
+            android:shadowColor="#ff0000"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="10"
+            android:text="@string/enter_master_key"
+            android:textSize="34sp" />
+
+        <EditText
+            android:id="@+id/editTextPassword1"
+            android:ems="10"
+            style="@style/EditTextPassword"
+            android:hint="@string/enter_master_key_2"
+            android:inputType="textPassword"
+            tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/editTextPassword2"
+            style="@style/EditTextPassword"
+            android:ems="10"
+            android:hint="@string/repeat_master_key"
+            android:inputType="textPassword"
+            tools:ignore="Autofill" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonConf"
+                style="@style/Button"
+                android:layout_width="120sp"
+                android:layout_height="50sp"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:layout_weight="1"
+                android:text="@string/confirm" />
+
+            <ToggleButton
+                android:id="@+id/checkBoxVisible"
+                style="@style/ButtonVisibility"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="10sp"
+                android:layout_weight="1"
+                android:textOn=""
+                android:textOff=""/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:layout_marginBottom="30sp"
+            android:src="@drawable/requirements_master_key"
+            tools:ignore="ContentDescription" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView2"
+            android:name="mpei.vkr.ui.login.WarningFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+
+</ScrollView>

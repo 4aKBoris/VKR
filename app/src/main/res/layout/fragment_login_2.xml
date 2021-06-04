@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300sp"
+    android:layout_height="300sp"
+    android:layout_gravity="center"
+    android:background="@drawable/fragment"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.login.LoginActivity">
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        style="@style/EditTextPassword"
+        android:layout_width="match_parent"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="20sp"
+        android:ems="10"
+        android:hint="@string/enter_master_key_2"
+        android:inputType="textPassword"
+        tools:ignore="Autofill,LabelFor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonConf"
+            style="@style/Button"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30sp"
+            android:layout_marginEnd="30sp"
+            android:text="@string/OK" />
+
+        <ToggleButton
+            android:id="@+id/checkBoxVisible_2"
+            style="@style/ButtonVisibility"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20sp"
+            android:layout_weight="1"
+            android:textOff=""
+            android:textOn=""/>
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="mpei.vkr.ui.login.WarningFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="30sp"
+        android:visibility="invisible" />
+
+</LinearLayout>
