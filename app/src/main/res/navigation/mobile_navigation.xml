@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="mpei.vkr.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_encrypt"
+        android:name="mpei.vkr.ui.encrypt.EncryptFragment"
+        android:label="@string/encrypt_files"
+        tools:layout="@layout/fragment_encrypt" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="mpei.vkr.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" /><action android:id="@+id/action_global_nav_home" app:destination="@id/nav_home"/>
+        android:id="@+id/nav_decrypt"
+        android:name="mpei.vkr.ui.decrypt.DecryptFragment"
+        android:label="@string/decrypt_files"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="mpei.vkr.ui.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/settings_fragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package mpei.vkr.ui.slideshow
+package mpei.vkr.ui.decrypt
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import mpei.vkr.R
 import mpei.vkr.databinding.FragmentSlideshowBinding
 
-class SlideshowFragment : Fragment() {
+class DecryptFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
+    private lateinit var decryptViewModel: DecryptViewModel
     private var _binding: FragmentSlideshowBinding? = null
 
     // This property is only valid between onCreateView and
@@ -25,14 +24,14 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        decryptViewModel =
+            ViewModelProvider(this).get(DecryptViewModel::class.java)
 
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        decryptViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
