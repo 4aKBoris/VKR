@@ -41,44 +41,6 @@ class LoginFragment2 : DialogFragment() {
         _binding = FragmentLogin2Binding.inflate(inflater, container, false)
         binding.login = loginViewModel
         binding.lifecycleOwner = this
-
-        binding.buttonConf.setOnClickListener {
-            binding.fragmentContainerView.visibility = View.INVISIBLE
-            try {
-                val password = binding.editTextPassword.text.toString()
-                isCorrect(password)
-                val intent = Intent(binding.root.context, MainActivity::class.java)
-                intent.putExtra(ARG_MASTER_KEY, password)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
-            } catch (e: MyException) {
-                warningFragment.Visible(e.message!!)
-                changeVisible()
-            } catch (e: Exception) {
-                warningFragment.Visible("Мастер ключ введён неверно!")
-                changeVisible()
-            }
-        }
         return binding.root
-    }
-
-    private fun changeVisible() {
-        binding.fragmentContainerView.visibility = View.VISIBLE
-        @Suppress("DEPRECATION")
-        Handler().postDelayed({
-            binding.fragmentContainerView.visibility = View.INVISIBLE
-        }, 5000)
-    }
-
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        private val warningFragment = WarningFragment()
-
-        @Throws(MyException::class)
-        private fun isCorrect(pass: String) {
-            val mk = MasterKey(pass)
-            if (pass.isEmpty()) throw MyException("Введите мастер ключ!")
-            if (!mk.IsCorrect()) throw MyException("Мастер ключ введён неверно!")
-        }
     }
 }

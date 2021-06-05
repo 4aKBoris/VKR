@@ -30,4 +30,8 @@
     <string name="encrypt_files">Шифрование файлов</string>
     <string name="decrypt_files">Расшифрование файлов</string>
     <string name="settings">Настройки</string>
+    <string name="master_key">Мастер ключ</string>
+    <string name="encrypt">Зашифровать</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
 </resources>
