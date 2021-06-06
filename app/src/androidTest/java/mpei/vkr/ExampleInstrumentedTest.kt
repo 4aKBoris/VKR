@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr
 
+import android.os.Environment
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import mpei.vkr.Others.FileReadWrite
@@ -28,7 +31,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun Test1() {
-        val k = FileReadWrite("/root/storage/emulated/0/File.txt")
-        println(k.readFile().contentToString())
+        val k = Environment.getExternalStorageDirectory().absolutePath
+        println(k)
     }
 }

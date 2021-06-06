@@ -34,4 +34,5 @@
     <string name="encrypt">Зашифровать</string>
     <string name="enter_password">Введите пароль</string>
     <string name="repeat_password">Повторите пароль</string>
+    <string name="decrypt">Расшифровать</string>
 </resources>

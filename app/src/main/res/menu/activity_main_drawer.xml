@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_cipher"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
@@ -26,5 +28,12 @@
             android:title="@string/master_key"
             app:actionLayout="@layout/switch_item"
             app:showAsAction="always" />
+    </group>
+    <group android:id="@+id/menu_info">
+        <item
+            android:id="@+id/freeMemory"
+            android:checkable="false"
+            android:enabled="true"
+            android:title="" />
     </group>
 </menu>

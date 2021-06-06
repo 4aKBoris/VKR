@@ -21,10 +21,41 @@
         android:id="@+id/nav_decrypt"
         android:name="mpei.vkr.ui.decrypt.DecryptFragment"
         android:label="@string/decrypt_files"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_decrypt" >
+        <action
+            android:id="@+id/action_nav_decrypt_to_fileFragment"
+            app:destination="@id/fileFragment" />
+        <argument
+            android:name="fileName"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="mpei.vkr.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/fileFragment"
+        android:name="mpei.vkr.ui.choice.file.FileFragment"
+        android:label="fragment_file_list"
+        tools:layout="@layout/fragment_file_list" >
+        <action
+            android:id="@+id/action_fileFragment_to_nav_decrypt"
+            app:destination="@id/nav_decrypt" />
+        <action
+            android:id="@+id/action_fileFragment_to_fileInfoFragment"
+            app:destination="@id/fileInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileInfoFragment"
+        android:name="mpei.vkr.ui.choice.file.FileInfoFragment"
+        android:label="file_info_fragment"
+        tools:layout="@layout/file_info_fragment" >
+        <action
+            android:id="@+id/action_fileInfoFragment_to_fileFragment"
+            app:destination="@id/fileFragment" />
+        <argument
+            android:name="fileName"
+            app:argType="string" />
+    </fragment>
 </navigation>
