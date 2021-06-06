@@ -22,14 +22,14 @@ class LoginViewModel : ViewModel(), CoroutineScope {
     private val _password1 = MutableLiveData("")
     private val _password2 = MutableLiveData("")
     private val _visibility = MutableLiveData(false)
-    private var _warning = MutableLiveData(false)
-    private var _buttonEnabled = MutableLiveData(true)
+    private val _warning = MutableLiveData(false)
+    private val _buttonEnabled = MutableLiveData(true)
 
     val password1: MutableLiveData<String> = _password1
     val password2: MutableLiveData<String> = _password2
     val visibility: MutableLiveData<Boolean> = _visibility
-    var warning: LiveData<Boolean> = _warning
-    var buttonEnabled: LiveData<Boolean> = _buttonEnabled
+    val warning: LiveData<Boolean> = _warning
+    val buttonEnabled: LiveData<Boolean> = _buttonEnabled
 
     fun buttonConfirm(view: View) = launch(Dispatchers.Main) {
         _warning.value = false

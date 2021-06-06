@@ -6,66 +6,108 @@
     <data>
 
         <variable
-            name="login"
-            type="mpei.vkr.ui.login.LoginViewModel" />
+            name="viewmodel"
+            type="mpei.vkr.ui.encrypt.EncryptViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layoutDescription="@xml/fragment_encrypt_scene"
-        tools:context=".ui.encrypt.EncryptFragment">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100sp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutDescription="@xml/fragment_encrypt_scene"
+            tools:context=".ui.encrypt.EncryptFragment">
 
-            <ImageButton
-                android:id="@+id/imageButton"
+            <EditText
+                android:id="@+id/editTextPassword1Encrypt"
+                style="@style/EditTextPassword"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="30sp"
-                android:layout_marginTop="20sp"
-                android:layout_marginBottom="20sp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_file"
-                tools:ignore="ContentDescription,InefficientWeight" />
+                android:ems="10"
+                android:hint="@string/enter_password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:text="@={viewmodel.password1}"
+                tools:ignore="LabelFor" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/editTextPassword2Encrypt"
+                style="@style/EditTextPassword"
+                android:layout_width="match_parent"
+                android:ems="10"
+                android:hint="@string/repeat_password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:text="@={viewmodel.password2}"
+                android:visibility="@{viewmodel.secondPassword ? View.VISIBLE : View.GONE}"
+                tools:ignore="LabelFor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/buttonFileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_file"
+                    tools:ignore="ContentDescription,InefficientWeight" />
+
+                <Button
+                    android:id="@+id/buttonEncrypt"
+                    style="@style/Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30sp"
+                    android:layout_marginEnd="30sp"
+                    android:onClick="@{(view) -> viewmodel.encryptFile(view)}"
+                    android:text="@string/encrypt" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewFileName"
+                style="@style/TextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="178dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="146dp"
-                android:text="Button"
-                tools:ignore="HardcodedText" />
+                android:layout_margin="30sp"
+                android:gravity="center"
+                android:text='@{viewmodel.fileName == "" ? viewmodel.fileName : viewmodel.fileName.substring(viewmodel.fileName.lastIndexOf("/") + 1, viewmodel.fileName.length)}' />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentCertificate"
+                android:name="mpei.vkr.ui.choice.certificate.ChoiceCertificateEncryptFragment"
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:layout_marginTop="20sp"
+                android:visibility='@{viewmodel.signature == "Не использовать" ? View.GONE : View.VISIBLE}' />
+
+            <ProgressBar
+                android:id="@+id/progressBarEncrypt"
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30sp"
+                android:visibility="@{viewmodel.encrypt ? View.VISIBLE : View.INVISIBLE}"/>
+
+            <TextView
+                android:id="@+id/textViewFileSize"
+                style="@style/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30sp"
+                android:text='@{"Размер файла: " + viewmodel.fileSize}'/>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView3"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_enter_password" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView4"
-            android:name="mpei.vkr.ui.choice.certificate.ChoiceCertificateEncryptFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    </ScrollView>
 </layout>

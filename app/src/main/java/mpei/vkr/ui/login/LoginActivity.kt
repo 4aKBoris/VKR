@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import mpei.vkr.MainActivity
+import mpei.vkr.Others.Permissions
 import mpei.vkr.R
 import mpei.vkr.databinding.ActivityLoginBinding
 
@@ -21,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val p = Permissions()
+        p.requestMultiplePermissions(this, 0)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
@@ -40,5 +44,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         finish()
+    }
+
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 0
     }
 }
