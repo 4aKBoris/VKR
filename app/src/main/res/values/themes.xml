@@ -9,6 +9,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextForTextView</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="TextForTextView">
@@ -44,6 +45,10 @@
         <item name="android:background">@drawable/button</item>
     </style>
 
+    <style name="TextForListFile">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="ButtonVisibility">
         <item name="android:background">@drawable/button_visibility</item>
     </style>
@@ -56,4 +61,42 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="SettingsTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+        <item name="android:shadowColor">@color/title_additional</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:textColor">@color/title_main</item>
+        <item name="android:shadowRadius">10</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextForSeekBar">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+    </style>
+
+    <style name="TextForSettingsTextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+    </style>
+
+    <style name="TextForSettingsCheckBox">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/atma_light</item>
+        <item name="buttonTint">@color/check_box</item>
+    </style>
+
+    <style name="SeekBarColor" parent="Widget.AppCompat.SeekBar">
+        <item name="colorAccent">#000000</item>
+    </style>
+
 </resources>

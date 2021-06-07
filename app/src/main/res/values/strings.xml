@@ -27,4 +27,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_page">Главная страница</string>
+    <string name="encrypt_files">Шифрование файлов</string>
+    <string name="decrypt_files">Расшифрование файлов</string>
+    <string name="settings">Настройки</string>
+    <string name="master_key">Мастер ключ</string>
+    <string name="encrypt">Зашифровать</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="decrypt">Расшифровать</string>
+    <string name="requirements_for_master_key">Требования к мастер-ключу</string>
+    <string name="little_letters">Использовать строчные буквы?</string>
+    <string name="big_letters">Использовать заглавные буквы?</string>
+    <string name="special_symbols">Использовать специальные символы?</string>
+    <string name="change_master_key">Сменить мастер ключ</string>
+    <string name="hint_for_change_master_key">Для смены мастер-ключа необходимо знать предыдущий мастрер-ключ</string>
+    <string name="title_activity_change_master_key">Смена мастер ключа</string>
 </resources>

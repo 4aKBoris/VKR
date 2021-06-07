@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="mpei.vkr.ui.settings.items.masterkey.SettingsMasterKeyViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.settings.items.masterkey.SettingsMasterKeyFragment">
+
+            <TextView
+                android:id="@+id/requirements"
+                style="@style/SettingsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:text="@string/requirements_for_master_key"
+                app:layout_constraintBottom_toTopOf="@id/checkBoxLittle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLittle"
+                style="@style/TextForSettingsCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_master_key_horizontal"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginEnd="@dimen/settings_master_key_horizontal"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:buttonTint="#4F0ACC"
+                android:checked="@={viewmodel.littleLetter}"
+                android:text="@string/little_letters"
+                app:layout_constraintBottom_toTopOf="@id/checkBoxBig"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/requirements"
+                tools:layout_constraintBottom_toTopOf="@id/checkBoxBig" />
+
+            <CheckBox
+                android:id="@+id/checkBoxBig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_master_key_horizontal"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginEnd="@dimen/settings_master_key_horizontal"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.bigLetter}"
+                android:text="@string/big_letters"
+                style="@style/TextForSettingsCheckBox"
+                app:layout_constraintBottom_toTopOf="@id/checkBoxSpecial"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBoxLittle" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSpecial"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_master_key_horizontal"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginEnd="@dimen/settings_master_key_horizontal"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.specialSymbols}"
+                android:text="@string/special_symbols"
+                style="@style/TextForSettingsCheckBox"
+                app:layout_constraintBottom_toTopOf="@id/seekBarLength"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBoxBig" />
+
+            <SeekBar
+                android:id="@+id/seekBarLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_master_key_horizontal"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginEnd="@dimen/settings_master_key_horizontal"
+                android:max="32"
+                android:progress="8"
+                android:progressTint="#F4004E"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBoxSpecial" />
+
+            <TextView
+                android:id="@+id/textViewLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:gravity="center"
+                android:text="@{viewmodel.length}"
+                android:textAppearance="@style/TextForSeekBar"
+                app:layout_constraintBottom_toTopOf="@id/view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seekBarLength" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:background="@color/grey"
+                app:layout_constraintBottom_toTopOf="@id/buttonChangeMasterKey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewLength"
+                tools:layout_constraintStart_toStartOf="parent"
+                tools:ignore="SmallSp" />
+
+            <Button
+                android:id="@+id/buttonChangeMasterKey"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:text="@string/change_master_key"
+                android:onClick="@{() -> viewmodel.buttonChange(view)}"
+                app:layout_constraintBottom_toTopOf="@id/textViewButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/textViewButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_master_key_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="@dimen/settings_master_key_horizontal"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="@string/hint_for_change_master_key"
+                android:textAppearance="@style/TextForSettingsTextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonChangeMasterKey" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

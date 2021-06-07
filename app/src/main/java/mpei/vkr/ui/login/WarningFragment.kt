@@ -24,9 +24,8 @@ class WarningFragment : Fragment() {
         textViewWarning.text = warning
     }
 
-
     companion object {
-       @SuppressLint("StaticFieldLeak")
-       private lateinit var textViewWarning: TextView
+        @SuppressLint("StaticFieldLeak")
+        private lateinit var textViewWarning: TextView
     }
 }

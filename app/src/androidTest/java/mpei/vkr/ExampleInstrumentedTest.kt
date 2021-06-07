@@ -1,12 +1,19 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr
 
+import android.os.Environment
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import mpei.vkr.Others.FileReadWrite
+import mpei.vkr.Others.Permissions
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import java.io.File
+import java.io.FileReader
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -20,5 +27,11 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("mpei.vkr", appContext.packageName)
+    }
+
+    @Test
+    fun Test1() {
+        val k = Environment.getExternalStorageDirectory().absolutePath
+        println(k)
     }
 }
