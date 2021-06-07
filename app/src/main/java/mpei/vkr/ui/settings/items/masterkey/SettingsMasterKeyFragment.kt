@@ -2,7 +2,6 @@
 
 package mpei.vkr.ui.settings.items.masterkey
 
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -14,6 +13,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import mpei.vkr.Constants.LENGTH
 import mpei.vkr.databinding.SettingsMasterKeyFragmentBinding
 import mpei.vkr.ui.settings.items.ModelFactory
 
@@ -30,11 +30,12 @@ class SettingsMasterKeyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = SettingsMasterKeyFragmentBinding.inflate(inflater, container, false)
-        val sp = PreferenceManager.getDefaultSharedPreferences(binding.view.context)
+        val sp = PreferenceManager.getDefaultSharedPreferences(binding.root.context)
         viewModel = ViewModelProviders.of(this, ModelFactory(sp))[SettingsMasterKeyViewModel::class.java]
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         binding.seekBarLength.min = 1
+        binding.seekBarLength.progress = sp.getString(LENGTH, "8")!!.toInt()
 
         binding.seekBarLength.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

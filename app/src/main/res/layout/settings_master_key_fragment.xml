@@ -95,7 +95,6 @@
                 android:layout_marginTop="@dimen/settings_master_key_vertical"
                 android:layout_marginEnd="@dimen/settings_master_key_horizontal"
                 android:max="32"
-                android:progress="8"
                 android:progressTint="#F4004E"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -25,7 +25,6 @@ class SettingsMasterKeyViewModel(private val sp: SharedPreferences) : ViewModel(
 
     fun buttonChange(view: View) {
         val intent = Intent(view.context, ChangeMasterKeyActivity::class.java)
-        //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(view.context, intent, null)
     }
 
