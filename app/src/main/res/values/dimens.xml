@@ -9,4 +9,5 @@
     <dimen name="list_view">7sp</dimen>
     <dimen name="settings_master_key_vertical">15sp</dimen>
     <dimen name="settings_master_key_horizontal">40sp</dimen>
+    <dimen name="settings_other_settings_horizontal">30sp</dimen>
 </resources>

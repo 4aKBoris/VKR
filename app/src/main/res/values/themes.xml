@@ -95,6 +95,11 @@
         <item name="buttonTint">@color/check_box</item>
     </style>
 
+    <style name="Switch" parent="TextForSettingsCheckBox" >
+        <item name="android:trackTint">#FF0505</item>
+        <item name="android:radius">10sp</item>
+    </style>
+
     <style name="SeekBarColor" parent="Widget.AppCompat.SeekBar">
         <item name="colorAccent">#000000</item>
     </style>
