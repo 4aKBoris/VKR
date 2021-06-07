@@ -2,27 +2,17 @@
 
 package mpei.vkr.ui.login
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.Constants.pathMasterKey
-import mpei.vkr.Crypto.MasterKey
-import mpei.vkr.Exception.MyException
-import mpei.vkr.MainActivity
 import mpei.vkr.R
-import mpei.vkr.Regex.RegexExpr
 import mpei.vkr.databinding.FragmentLoginBinding
 import java.io.File
-import kotlin.jvm.Throws
 
 class LoginFragment : Fragment() {
 

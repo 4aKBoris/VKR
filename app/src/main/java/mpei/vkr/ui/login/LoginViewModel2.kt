@@ -12,9 +12,7 @@ import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.Crypto.MasterKey
 import mpei.vkr.Exception.MyException
 import mpei.vkr.MainActivity
-import mpei.vkr.Regex.RegexExpr
 import kotlin.coroutines.CoroutineContext
-import kotlin.jvm.Throws
 
 class LoginViewModel2 : ViewModel(), CoroutineScope {
     private val _password = MutableLiveData("")

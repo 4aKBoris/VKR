@@ -9,16 +9,21 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavArgument
 import androidx.navigation.findNavController
+import androidx.navigation.get
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.Constants.path
 import mpei.vkr.Others.Permissions
 import mpei.vkr.databinding.ActivityMainBinding
+import mpei.vkr.ui.settings.SettingsFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,9 +48,11 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_encrypt, R.id.nav_decrypt, R.id.freeMemory
+                R.id.nav_home, R.id.nav_encrypt, R.id.nav_decrypt, R.id.nav_settings
             ), drawerLayout
         )
+
+        SettingsFragment().arguments = Bundle().apply{ putString(ARG_MASTER_KEY, "dwa") }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
