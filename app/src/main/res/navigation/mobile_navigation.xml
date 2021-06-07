@@ -33,7 +33,12 @@
         android:id="@+id/nav_settings"
         android:name="mpei.vkr.ui.settings.SettingsFragment"
         android:label="@string/settings"
-        tools:layout="@layout/settings_fragment" />
+        tools:layout="@layout/settings_fragment" >
+        <argument
+            android:name="MasterKey"
+            app:argType="string"
+            android:defaultValue="12345"/>
+    </fragment>
     <fragment
         android:id="@+id/fileFragment"
         android:name="mpei.vkr.ui.choice.file.FileFragment"

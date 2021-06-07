@@ -23,8 +23,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val p = Permissions()
-        p.requestMultiplePermissions(this, 0)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
@@ -44,9 +42,5 @@ class LoginActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         finish()
-    }
-
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 0
     }
 }

@@ -47,13 +47,11 @@ class MyfileRecyclerViewAdapter(
     @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
-        holder.itemView.setOnClickListener { choiceFile(it.context, values[i].fileName) }
+        holder.itemView.setOnClickListener { choiceFile(it.context, values[position].fileName) }
     }
 
     private fun action(id: Int, fileName: String) {
-        val bundle = Bundle()
-        bundle.putString("fileName", fileName)
-        findNavController(fragment).navigate(id, bundle)
+        findNavController(fragment).navigate(id, Bundle().apply { putString("fileName", fileName) })
     }
 
     private fun choiceFile(context: Context, fileName: String) {
