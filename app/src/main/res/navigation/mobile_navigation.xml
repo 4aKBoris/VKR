@@ -38,6 +38,9 @@
             android:name="MasterKey"
             app:argType="string"
             android:defaultValue="12345"/>
+        <action
+            android:id="@+id/action_nav_settings_to_nav_certificate"
+            app:destination="@id/nav_certificate" />
     </fragment>
     <fragment
         android:id="@+id/fileFragment"
@@ -63,4 +66,9 @@
             android:name="fileName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_certificate"
+        android:name="mpei.vkr.ui.choice.certificate.CertificateFragment"
+        android:label="@string/certificate_work"
+        tools:layout="@layout/certificate_fragment" />
 </navigation>

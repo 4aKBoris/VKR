@@ -1,9 +1,11 @@
-@file:Suppress("UNREACHABLE_CODE")
+@file:Suppress("UNREACHABLE_CODE", "DEPRECATION")
 
 package mpei.vkr.ui.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
@@ -34,8 +36,9 @@ class LoginViewModel : ViewModel(), CoroutineScope {
     fun buttonConfirm(view: View) = launch(Dispatchers.Main) {
         _warning.value = false
         _buttonEnabled.value = false
+        val sp = PreferenceManager.getDefaultSharedPreferences(view.context)
         try {
-            isCorrect(_password1.value, _password2.value)
+            isCorrect(_password1.value, _password2.value, sp)
             val intent = Intent(view.context, MainActivity::class.java)
             intent.putExtra(ARG_MASTER_KEY, _password1.value)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -62,7 +65,7 @@ class LoginViewModel : ViewModel(), CoroutineScope {
         private val regex = RegexExpr()
 
         @Throws(MyException::class)
-        private fun isCorrect(pass1: String?, pass2: String?) {
+        private fun isCorrect(pass1: String?, pass2: String?, sp: SharedPreferences) {
             if ((pass1 == null || pass2 == null) || (pass1.isEmpty() || pass2.isEmpty())) throw MyException(
                 "Введите мастер ключ!"
             )

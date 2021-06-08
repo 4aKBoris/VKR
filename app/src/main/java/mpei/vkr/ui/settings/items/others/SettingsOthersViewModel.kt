@@ -1,11 +1,15 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr.ui.settings.items.others
 
+import android.app.Application
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.preference.PreferenceManager
+import androidx.lifecycle.*
 import mpei.vkr.Constants.*
 
-class SettingsOthersViewModel(private val sp: SharedPreferences) : ViewModel() {
+class SettingsOthersViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
+    private val sp = PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
     private val _salt = MutableLiveData(sp.getBoolean(Salt, false))
     private val _secondPassword = MutableLiveData(sp.getBoolean(SecondPassword, false))
     private val _deleteFile = MutableLiveData(sp.getBoolean(DeleteFile, false))
@@ -18,6 +22,7 @@ class SettingsOthersViewModel(private val sp: SharedPreferences) : ViewModel() {
     val passwordFlag: MutableLiveData<Boolean> = _passwordFlag
     val cipherPassword: MutableLiveData<Boolean> = _cipherPassword
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun saveSettings() {
         val editor = sp.edit()
         editor.putBoolean(Salt, _salt.value!!)

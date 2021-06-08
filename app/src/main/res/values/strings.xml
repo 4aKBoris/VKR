@@ -42,4 +42,19 @@
     <string name="change_master_key">Сменить мастер ключ</string>
     <string name="hint_for_change_master_key">Для смены мастер-ключа необходимо знать предыдущий мастрер-ключ</string>
     <string name="title_activity_change_master_key">Смена мастер ключа</string>
+    <string name="_1">1</string>
+    <string name="_256">256</string>
+    <string name="KeySize">Длина ключа (байт)</string>
+    <string name="cipher_algorithm">Алгоритм шифрования</string>
+    <string name="cipher_settings">Настройки шифра</string>
+    <string name="count">Количество итераций</string>
+    <string name="hash_settings">Настройки хэширования</string>
+    <string name="hash_algorithm">Алгоритм хэширования</string>
+    <string name="_1000">1000</string>
+    <string name="settings_signature">Настройки цифровой подписи</string>
+    <string name="signature_algorithm">Алгоритм цифровой подписи</string>
+    <string name="signature_info">Для подписания, файла необходимо создать сертификаты</string>
+    <string name="create_certificate">Создать сертификаты</string>
+    <string name="certificate">Сертификаты</string>
+    <string name="certificate_work">Работа с сертификатами</string>
 </resources>

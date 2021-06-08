@@ -1,18 +1,21 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr.ui.settings.items.masterkey
 
+import android.app.Application
 import android.content.Intent
-import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import mpei.vkr.Constants.LENGTH
 import mpei.vkr.Constants.useBigLetter
 import mpei.vkr.Constants.useLittleLetter
 import mpei.vkr.Constants.useSpecialSymbols
 import mpei.vkr.ui.settings.items.masterkey.change.ChangeMasterKeyActivity
 
-class SettingsMasterKeyViewModel(private val sp: SharedPreferences) : ViewModel() {
+class SettingsMasterKeyViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
+    private val sp = PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
     private val _littleLetter = MutableLiveData(sp.getBoolean(useLittleLetter, true))
     private val _bigLetter = MutableLiveData(sp.getBoolean(useBigLetter, true))
     private val _specialSymbols = MutableLiveData(sp.getBoolean(useSpecialSymbols, true))
@@ -28,6 +31,7 @@ class SettingsMasterKeyViewModel(private val sp: SharedPreferences) : ViewModel(
         startActivity(view.context, intent, null)
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun saveSettings() {
         val editor = sp.edit()
         editor.putBoolean(useLittleLetter, _littleLetter.value!!)

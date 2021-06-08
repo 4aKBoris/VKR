@@ -25,3 +25,13 @@ internal const val SecondPassword = "SecondPassword"
 internal const val DeleteFile = "DeleteFile"
 internal const val PasswordFlag = "PasswordFlag"
 internal const val CipherPassword = "CipherPassword"
+
+internal const val CipherAlgorithm = "CipherAlgorithm"
+internal const val CipherCount = "CipherCount"
+internal const val KeySize = "KeySize"
+
+internal const val HashAlgorithm = "HashAlgorithm"
+internal const val HashCount = "HashCount"
+
+internal const val SignatureAlgorithm = "SignatureAlgorithm"
+internal const val SHA256withRSA = "SHA256withRSA"

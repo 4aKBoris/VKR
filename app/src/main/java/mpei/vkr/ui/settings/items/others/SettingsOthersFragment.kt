@@ -3,14 +3,12 @@
 package mpei.vkr.ui.settings.items.others
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import mpei.vkr.databinding.SettingsOthersFragmentBinding
-import mpei.vkr.ui.settings.items.ModelFactory
 
 class SettingsOthersFragment : Fragment() {
 
@@ -23,9 +21,9 @@ class SettingsOthersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = SettingsOthersFragmentBinding.inflate(inflater, container, false)
-        val sp = PreferenceManager.getDefaultSharedPreferences(binding.root.context)
-        viewModel = ViewModelProviders.of(this, ModelFactory(sp))[SettingsOthersViewModel::class.java]
+        viewModel = ViewModelProvider(this).get(SettingsOthersViewModel::class.java)
         binding.viewmodel = viewModel
+        lifecycle.addObserver(viewModel)
         return binding.root
     }
 
@@ -33,10 +31,4 @@ class SettingsOthersFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.saveSettings()
-    }
-
 }
