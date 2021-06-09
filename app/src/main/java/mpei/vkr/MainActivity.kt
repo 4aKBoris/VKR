@@ -1,29 +1,34 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Environment.getExternalStorageDirectory
 import android.os.StatFs
 import android.util.Log
 import android.view.Menu
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavArgument
 import androidx.navigation.findNavController
-import androidx.navigation.get
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import mpei.vkr.Constants.ARG_MASTER_KEY
+import mpei.vkr.Constants.PATH_KEY_STORE
 import mpei.vkr.Constants.path
 import mpei.vkr.Others.Permissions
 import mpei.vkr.databinding.ActivityMainBinding
 import mpei.vkr.ui.settings.SettingsFragment
+import java.io.File
+import java.io.FileOutputStream
+import java.security.KeyStore
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,9 +65,22 @@ class MainActivity : AppCompatActivity() {
         p.requestMultiplePermissions(this, PERMISSION_REQUEST_CODE)
         //password = intent.extras!!.getString(ARG_MASTER_KEY)!!
 
+        password = "12345678"
+        if(!File(PATH_KEY_STORE).exists()) {
+            val keyStore = KeyStore.getInstance("PKCS12")
+            keyStore.load(null, password.toCharArray())
+            val keyStoreOutputStream = FileOutputStream(PATH_KEY_STORE)
+            keyStore.store(keyStoreOutputStream, password.toCharArray())
+        }
+
         val permissionStatus =
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
         Log.d("Права", permissionStatus.toString())
+
+        createDir("VKR")
+        createDir("VKR/CipherFiles")
+        createDir("VKR/ClearFiles")
+        createDir("VKR/Certificates")
 
     }
 
@@ -86,6 +104,15 @@ class MainActivity : AppCompatActivity() {
             val freeSpace = String.format(rule, statFs.freeBytes.toDouble() / TEN)
             val fullSpace = String.format(rule, statFs.totalBytes.toDouble() / TEN)
             return "Свободно $freeSpace / $fullSpace ГБ"
+        }
+
+        private fun createDir(name: String): File? {
+            val baseDir: File?
+            baseDir = File(path)
+            val folder = File(baseDir, name)
+            if (folder.exists()) return folder
+            if (folder.isFile) folder.delete()
+            return if (folder.mkdirs()) folder else getExternalStorageDirectory()
         }
     }
 

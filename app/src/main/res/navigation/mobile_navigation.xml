@@ -70,5 +70,18 @@
         android:id="@+id/nav_certificate"
         android:name="mpei.vkr.ui.choice.certificate.CertificateFragment"
         android:label="@string/certificate_work"
-        tools:layout="@layout/certificate_fragment" />
+        tools:layout="@layout/certificate_fragment" >
+        <action
+            android:id="@+id/action_nav_certificate_to_createCertificateFragment"
+            app:destination="@id/createCertificateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCertificateFragment"
+        android:name="mpei.vkr.ui.choice.certificate.CreateCertificateFragment"
+        android:label="create_certificate_fragment"
+        tools:layout="@layout/create_certificate_fragment" >
+        <action
+            android:id="@+id/action_createCertificateFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

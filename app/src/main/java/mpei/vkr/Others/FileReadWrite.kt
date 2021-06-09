@@ -2,8 +2,10 @@
 
 package mpei.vkr.Others
 
+import mpei.vkr.Exception.MyException
 import mpei.vkr.ui.decrypt.DecryptViewModel
 import java.io.*
+import kotlin.jvm.Throws
 
 class FileReadWrite(private val fileName: String) {
 
@@ -13,8 +15,7 @@ class FileReadWrite(private val fileName: String) {
         bw.close()
     }
 
-    fun readFile(): ByteArray =
-        BufferedInputStream(FileInputStream(File(fileName))).readBytes()
+    fun readFile(): ByteArray = BufferedInputStream(FileInputStream(File(fileName))).readBytes()
 
     fun readFileOne(): Int =
         BufferedInputStream(FileInputStream(File(fileName))).read()

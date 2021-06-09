@@ -57,4 +57,12 @@
     <string name="create_certificate">Создать сертификаты</string>
     <string name="certificate">Сертификаты</string>
     <string name="certificate_work">Работа с сертификатами</string>
+    <string name="import_certificate">Импортировать сертификат</string>
+    <string name="certificate_export">Экспортировать сертификат</string>
+    <string name="city">Город</string>
+    <string name="state">Область</string>
+    <string name="organization">Организация</string>
+    <string name="name">Ф.И.О.</string>
+    <string name="department">Отдел</string>
+    <string name="enter_data">Ввод данных</string>
 </resources>
