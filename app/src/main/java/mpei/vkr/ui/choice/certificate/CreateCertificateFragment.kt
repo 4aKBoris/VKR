@@ -26,7 +26,7 @@ class CreateCertificateFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(CreateCertificateViewModel::class.java)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-
+        lifecycle.addObserver(viewModel)
         return binding.root
     }
 

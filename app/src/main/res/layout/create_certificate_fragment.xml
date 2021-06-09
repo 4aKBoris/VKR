@@ -11,125 +11,163 @@
 
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".ui.choice.certificate.CreateCertificateFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:onClick="@{(view) -> viewmodel.onButtonCreate(view)}"
+            android:src="@drawable/certificate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true"
+            tools:ignore="ContentDescription" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ui.choice.certificate.CreateCertificateFragment">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/SettingsTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:text="@string/enter_data"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButtonCreate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{(view) -> viewmodel.onButtonCreate(view)}"
-                android:src="@drawable/certificate"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/SettingsTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:text="@string/enter_data"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editTextName"
-                style="@style/EditTextPassword"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/choice_certificate_horizontal"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:layout_marginEnd="@dimen/choice_certificate_horizontal"
-                android:autofillHints=""
-                android:ems="10"
-                android:text="@={viewmodel.name}"
-                android:hint="@string/name"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                <EditText
+                    android:id="@+id/editTextName"
+                    style="@style/EditTextPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:ems="10"
+                    android:hint="@string/name"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@={viewmodel.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.502"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    tools:ignore="LabelFor" />
 
-            <EditText
-                android:id="@+id/editTextOrganizationalUnit"
-                style="@style/EditTextPassword"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/choice_certificate_horizontal"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:layout_marginEnd="@dimen/choice_certificate_horizontal"
-                android:ems="10"
-                android:text="@={viewmodel.organizationalUnit}"
-                android:hint="@string/department"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextName"
-                tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/editTextOrganizationalUnit"
+                    style="@style/EditTextPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:ems="10"
+                    android:text="@={viewmodel.organizationalUnit}"
+                    android:hint="@string/department"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
-            <EditText
-                android:id="@+id/editTextOrganizationName"
-                style="@style/EditTextPassword"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/choice_certificate_horizontal"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:layout_marginEnd="@dimen/choice_certificate_horizontal"
-                android:ems="10"
-                android:text="@={viewmodel.organizationName}"
-                android:hint="@string/organization"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.547"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationalUnit" />
+                <EditText
+                    android:id="@+id/editTextOrganizationName"
+                    style="@style/EditTextPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:ems="10"
+                    android:hint="@string/organization"
+                    android:inputType="textPersonName"
+                    android:text="@={viewmodel.organizationName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.547"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationalUnit"
+                    android:importantForAutofill="no" />
 
-            <EditText
-                android:id="@+id/editTextLocality"
-                style="@style/EditTextPassword"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/choice_certificate_horizontal"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:layout_marginEnd="@dimen/choice_certificate_horizontal"
-                android:ems="10"
-                android:text="@={viewmodel.locality}"
-                android:hint="@string/city"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName" />
+                <EditText
+                    android:id="@+id/editTextLocality"
+                    style="@style/EditTextPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:ems="10"
+                    android:hint="@string/city"
+                    android:inputType="textPersonName"
+                    android:text="@={viewmodel.locality}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName"
+                    android:importantForAutofill="no" />
 
-            <EditText
-                android:id="@+id/editTextState"
-                style="@style/EditTextPassword"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/choice_certificate_horizontal"
-                android:layout_marginTop="@dimen/choice_certificate_vertical"
-                android:layout_marginEnd="@dimen/choice_certificate_horizontal"
-                android:ems="10"
-                android:text="@={viewmodel.state}"
-                android:hint="@string/state"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextLocality" />
+                <EditText
+                    android:id="@+id/editTextState"
+                    style="@style/EditTextPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="@dimen/choice_certificate_vertical"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:ems="10"
+                    android:hint="@string/state"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@={viewmodel.state}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextLocality" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/choice_certificate_horizontal"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="@dimen/choice_certificate_horizontal"
+                    android:layout_marginBottom="50dp"
+                    android:progress="@{viewmodel.progress}"
+                    android:max="12"
+                    android:min="0"
+                    android:theme="@style/CustomProgressBarHorizontal"
+                    android:progressDrawable="@drawable/progress_bar"
+                    android:outlineSpotShadowColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextState"
+                    tools:targetApi="o"
+                    tools:ignore="UnusedAttribute" />
 
-    </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
