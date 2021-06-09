@@ -163,4 +163,10 @@
         <item name="android:maxHeight">20dip</item>
     </style>
 
+    <style name="TabLayoutText">
+        <item name="fontFamily">@font/atma_light</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#84BD51</item>
+    </style>
+
 </resources>

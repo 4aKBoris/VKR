@@ -26,7 +26,7 @@
                 style="@style/SettingsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/settings_cipher_title"
                 android:text="@string/cipher_settings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,11 +86,14 @@
                 android:layout_marginStart="@dimen/seek_bar_horizontal"
                 android:layout_marginTop="@dimen/settings_cipher_vertical"
                 android:layout_marginEnd="@dimen/seek_bar_horizontal"
+                android:min="1"
+                android:max="256"
                 android:progress="@{viewmodel.cipherCount}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                tools:ignore="UnusedAttribute" />
 
             <TextView
                 android:id="@+id/textViewCountMin"
@@ -164,7 +167,9 @@
                 style="@style/SeekBarMainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_cipher_vertical"
                 android:text="@{String.valueOf(viewmodel.keySize)}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textViewKeySizeMax"
                 app:layout_constraintHorizontal_bias="0.47"
                 app:layout_constraintStart_toEndOf="@+id/textViewKeySizeMin"

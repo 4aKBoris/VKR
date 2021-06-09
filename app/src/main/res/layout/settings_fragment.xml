@@ -9,15 +9,16 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        app:tabMode="scrollable"
-        app:tabIndicatorColor="@color/teal_200"
-        app:tabIndicatorHeight="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#4E0661"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabTextAppearance="@style/MyCustomTextAppearance"/>
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="scrollable"
+        app:tabTextAppearance="@style/TabLayoutText" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

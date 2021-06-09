@@ -25,10 +25,8 @@
                 style="@style/SettingsTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_title"
                 android:text="Другие настройки"
-                app:layout_constraintBottom_toTopOf="@id/switchSalt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,17 +39,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_other_settings_horizontal"
-                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_vertical"
                 android:layout_marginEnd="@dimen/settings_other_settings_horizontal"
-                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.salt}"
                 android:text="Использовать соль?"
-                app:layout_constraintBottom_toTopOf="@id/switchSecondPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/otherSettings"
-                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml"
-                android:checked="@={viewmodel.salt}"/>
+                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switchSecondPassword"
@@ -59,17 +55,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_other_settings_horizontal"
-                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_vertical"
                 android:layout_marginEnd="@dimen/settings_other_settings_horizontal"
-                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.secondPassword}"
                 android:text="Вводить пароль дважды?"
-                app:layout_constraintBottom_toTopOf="@id/switchDeleteFile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchSalt"
-                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml"
-                android:checked="@={viewmodel.secondPassword}"/>
+                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switchDeleteFile"
@@ -77,17 +71,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_other_settings_horizontal"
-                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_vertical"
                 android:layout_marginEnd="@dimen/settings_other_settings_horizontal"
-                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.deleteFile}"
                 android:text="Удалять файл после шифрования?"
-                app:layout_constraintBottom_toTopOf="@id/switchPasswordFlag"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchSecondPassword"
-                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml"
-                android:checked="@={viewmodel.deleteFile}"/>
+                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switchPasswordFlag"
@@ -95,17 +86,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_other_settings_horizontal"
-                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_vertical"
                 android:layout_marginEnd="@dimen/settings_other_settings_horizontal"
-                android:layout_marginBottom="@dimen/settings_master_key_vertical"
+                android:checked="@={viewmodel.passwordFlag}"
                 android:text="Проверять парольную фразу на сложность?"
-                app:layout_constraintBottom_toTopOf="@id/switchCipherPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchDeleteFile"
-                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml"
-                android:checked="@={viewmodel.passwordFlag}"/>
+                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switchCipherPassword"
@@ -113,17 +102,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_other_settings_horizontal"
-                android:layout_marginTop="@dimen/settings_master_key_vertical"
+                android:layout_marginTop="@dimen/settings_other_settings_vertical"
                 android:layout_marginEnd="@dimen/settings_other_settings_horizontal"
-                android:layout_marginBottom="458dp"
+                android:layout_marginBottom="@dimen/settings_other_settings_vertical"
+                android:checked="@={viewmodel.cipherPassword}"
                 android:text="Шифровать парольную фразу?"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.569"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchPasswordFlag"
-                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml"
-                android:checked="@={viewmodel.cipherPassword}"/>
+                tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
