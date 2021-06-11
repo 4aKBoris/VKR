@@ -65,4 +65,6 @@
     <string name="name">Ф.И.О.</string>
     <string name="department">Отдел</string>
     <string name="enter_data">Ввод данных</string>
+    <string name="_8">8</string>
+    <string name="_32">32</string>
 </resources>

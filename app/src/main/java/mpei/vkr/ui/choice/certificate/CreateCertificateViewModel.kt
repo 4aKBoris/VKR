@@ -10,6 +10,7 @@ import androidx.lifecycle.*
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import kotlinx.coroutines.*
 import mpei.vkr.Constants.*
+import mpei.vkr.Crypto.Algorithms
 import mpei.vkr.Others.ToastShow
 import mpei.vkr.R
 import org.bouncycastle.jce.provider.BouncyCastleProvider
@@ -56,7 +57,7 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
         val keyStoreData = FileInputStream(PATH_KEY_STORE)
         val keyStore = KeyStore.getInstance(KEY_STORE_ALGORITHM)
         keyStore.load(keyStoreData, password.toCharArray())
-        sign.filter { it != "Не использовать" }.forEach {
+        alg.getSignatureAlgorithms().filter { it != "Не использовать" }.forEach {
             Security.addProvider(BouncyCastleProvider())
             val keyPairGenerator = KeyPairGenerator.getInstance(s(it))
             val keyPair = keyPairGenerator.generateKeyPair()
@@ -76,7 +77,7 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
             gen.setSignatureAlgorithm(it)
             val myCert = gen.generate(keyPair.private)
             keyStore.setCertificateEntry(Certificate + it, myCert)
-            keyStore.setKeyEntry(it, keyPair.private, null, arrayOf(myCert))
+            keyStore.setKeyEntry(PrivateKey + it, keyPair.private, it.toCharArray(), arrayOf(myCert))
             setProgress()
         }
         val keyStoreOutputStream = FileOutputStream(PATH_KEY_STORE)
@@ -100,6 +101,7 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
         private const val password = "12345678"
         private val job = SupervisorJob()
         private var toast = ToastShow()
+        private val alg = Algorithms()
 
         @JvmStatic
         private fun s(sign_alg: String): String {

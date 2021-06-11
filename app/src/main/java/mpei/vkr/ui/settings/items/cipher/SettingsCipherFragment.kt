@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import mpei.vkr.Constants.keySizeCipher
+import mpei.vkr.Crypto.Algorithms
 import mpei.vkr.databinding.SettingsCipherFragmentBinding
 
 class SettingsCipherFragment : Fragment() {
@@ -36,8 +36,8 @@ class SettingsCipherFragment : Fragment() {
         })
         binding.seekBarKeySize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val alg = viewModel.cipherAlgorithm.value
-                viewModel.keySize.value = keySizeCipher[alg]!!.first() + keySizeCipher[alg]!![1] * progress
+                val algorithm = viewModel.cipherAlgorithm.value!!
+                viewModel.keySize.value = alg.getKeySizeMin(algorithm) + alg.getKeySizeStep(algorithm) * progress
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -50,5 +50,9 @@ class SettingsCipherFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private val alg = Algorithms()
     }
 }

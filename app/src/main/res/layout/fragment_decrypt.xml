@@ -16,85 +16,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/editTextPasswordDecrypt"
                 style="@style/EditTextPassword"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="50sp"
+                android:layout_marginStart="@dimen/decrypt_horizontal"
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_marginEnd="@dimen/decrypt_horizontal"
                 android:ems="10"
                 android:hint="@string/enter_password"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:text="@={viewmodel.password}"
-                tools:ignore="LabelFor" />
+                android:visibility="@{viewmodel.useMasterKey ? View.GONE: View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100sp"
-                android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/buttonFileName"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/decrypt_horizontal"
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/ic_file"
+                android:onClick="@{(view) -> viewmodel.choiceFile(view)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPasswordDecrypt"
+                tools:ignore="ContentDescription,InefficientWeight" />
 
-                <ImageButton
-                    android:id="@+id/buttonFileName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="30sp"
-                    android:layout_marginTop="20sp"
-                    android:layout_marginBottom="20sp"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_file"
-                    android:onClick="@{(view) -> viewmodel.choiceFile(view)}"
-                    tools:ignore="ContentDescription,InefficientWeight" />
-
-                <Button
-                    android:id="@+id/buttonDecrypt"
-                    style="@style/Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30sp"
-                    android:layout_marginEnd="30sp"
-                    android:onClick="@{(view) -> viewmodel.decryptFile(view)}"
-                    android:text="@string/decrypt" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/buttonDecrypt"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/decrypt_horizontal"
+                android:onClick="@{(view) -> viewmodel.decryptFile(view)}"
+                android:text="@string/decrypt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/buttonFileName"
+                tools:layout_constraintTop_toBottomOf="@id/editTextPasswordDecrypt" />
 
             <TextView
                 android:id="@+id/textViewFileName"
-                style="@style/TextView"
-                android:layout_width="match_parent"
+                style="@style/SettingsTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="30sp"
+                android:layout_marginStart="@dimen/decrypt_horizontal"
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_marginEnd="@dimen/decrypt_horizontal"
                 android:gravity="center"
-                android:text='@={viewmodel.fileName}' />
+                android:text='@{viewmodel.fileName}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonDecrypt" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentCertificate"
-                android:name="mpei.vkr.ui.choice.certificate.ChoiceCertificateEncryptFragment"
-                android:layout_width="match_parent"
-                android:layout_height="100sp"
-                android:layout_marginTop="20sp"
-                android:visibility='@{viewmodel.signature == "Не использовать" ? View.GONE : View.VISIBLE}' />
+            <TextView
+                android:id="@+id/textViewChooseCertificate"
+                style="@style/SettingsTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/decrypt_horizontal"
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_marginEnd="@dimen/decrypt_horizontal"
+                android:visibility='@{viewmodel.certificateVisibility ? View.GONE: View.VISIBLE}'
+                android:text="@{viewmodel.certificate}"
+                android:onClick="@{(view) -> viewmodel.chooseCertificate(view)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewFileName" />
 
             <ProgressBar
-                android:id="@+id/progressBarEncrypt"
-                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                android:id="@+id/progressBarDecrypt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30sp"
-                android:visibility="@{viewmodel.decrypt ? View.VISIBLE : View.INVISIBLE}"/>
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:visibility="@{viewmodel.decrypt ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewChooseCertificate" />
 
             <TextView
                 android:id="@+id/textViewFileSize"
-                style="@style/TextView"
+                style="@style/SettingsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30sp"
-                android:text='@{"Размер файла: " + viewmodel.fileSize}'/>
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:text='@{"Размер файла: " + viewmodel.fileSize}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBarDecrypt" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

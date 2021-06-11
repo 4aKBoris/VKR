@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
 import mpei.vkr.Constants.*
+import mpei.vkr.Crypto.Algorithms
 
 class SettingsMessageDigestViewModel(application: Application) : AndroidViewModel(application),
     LifecycleObserver {
@@ -21,8 +22,8 @@ class SettingsMessageDigestViewModel(application: Application) : AndroidViewMode
     fun chooseAlgorithm(view: View) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
         builder.setTitle("Выберите алгоритм хэш-функции")
-        builder.setItems(hashAlg.toTypedArray()) { _, which ->
-            _hashAlgorithm.value = hashAlg[which]
+        builder.setItems(alg.getHashAlgorithms().toTypedArray()) { _, which ->
+            _hashAlgorithm.value = alg.getHashAlgorithm(which)
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
@@ -36,4 +37,7 @@ class SettingsMessageDigestViewModel(application: Application) : AndroidViewMode
         editor.apply()
     }
 
+    companion object {
+        private val alg: Algorithms = Algorithms()
+    }
 }

@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,16 +13,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import kotlinx.coroutines.*
-import mpei.vkr.Constants.*
 import mpei.vkr.Exception.MyException
-import mpei.vkr.Others.FileReadWrite
-import mpei.vkr.Others.KeySt
+import mpei.vkr.Others.KeyStoreClass
 import mpei.vkr.Others.Notification
 import mpei.vkr.Others.ToastShow
 import mpei.vkr.R
 import java.io.File
-import java.io.FileInputStream
-import java.security.KeyStore
 import kotlin.coroutines.CoroutineContext
 
 class CertificateViewModel(application: Application) : AndroidViewModel(application),
@@ -34,22 +31,24 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
     val pathCertificate: MutableLiveData<String> = _pathCertificate
     val certificateName: LiveData<String> = Transformations.map(_pathCertificate) { File(it).name }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun import() = launch(Dispatchers.IO) {
         try {
-            val certificate = FileReadWrite(_pathCertificate.value!!).readFile()
-            val file = FileReadWrite(pathToCertificate + File(_pathCertificate.value!!).name)
-            file.writeFile(certificate)
+            if (_pathCertificate.value == "") throw MyException("Выбирите файл!")
+            val keyStore = KeyStoreClass(password)
+            keyStore.importCertificate(_pathCertificate.value!!)
+            toast.suspendShow(context, "Сертификат ${File(_pathCertificate.value!!).name} импортирован!")
         } catch (e: MyException) {
             toast.suspendShow(context, e.message!!)
         } catch (e: Exception) {
-            toast.suspendShow(context, "Ошибка с чтением или записью сертфииката!")
+            toast.suspendShow(context, "Данный файл не является сертификатом!")
         }
     }
 
     fun export(context: Context) = launch(Dispatchers.IO) {
         try {
             var alg: String?
-            val keyStore = KeySt(password)
+            val keyStore = KeyStoreClass(password)
             val algorithms = keyStore.algorithms()
             if (algorithms.isNullOrEmpty()) throw MyException("Создайте сертификаты!")
             withContext(Dispatchers.Main) {
@@ -58,7 +57,10 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
                 builder.setItems(algorithms) { dialog, which ->
                     alg = algorithms[which]
                     dialog.dismiss()
-                    if (alg == null) toast.show(context, "Сертификат с алгоритмом $alg экспортирован!")
+                    if (alg == null) toast.show(
+                        context,
+                        "Сертификат с алгоритмом $alg экспортирован!"
+                    )
                     else {
                         keyStore.saveCertificate("my_cert_$alg.cer", keyStore.getCertificate(alg!!))
                         toast.show(context, "Сертификат с алгоритмом $alg экспортирован!")
@@ -75,13 +77,9 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
 
     fun createCertificate(fragment: CertificateFragment) =
         launch(Dispatchers.IO) {
-            val keyStoreData = FileInputStream(PATH_KEY_STORE)
-            val keyStore = KeyStore.getInstance(KEY_STORE_ALGORITHM)
-            keyStore.load(keyStoreData, password.toCharArray())
-            keyStore.aliases().toList().forEach { Log.d(LOG_TAG, it) }
+            val keyStore = KeyStoreClass(password)
             withContext(Dispatchers.Main) {
-                if (keyStore.aliases().toList().find { it.contains(Certificate) }
-                        .isNullOrEmpty()) findNavController(fragment).navigate(R.id.action_nav_certificate_to_createCertificateFragment)
+                if (keyStore.isHaveCertificates()) findNavController(fragment).navigate(R.id.action_nav_certificate_to_createCertificateFragment)
                 else dialog(fragment)
             }
         }

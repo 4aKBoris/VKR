@@ -2,18 +2,14 @@
 
 package mpei.vkr
 
-import android.os.Environment
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import mpei.vkr.Others.FileReadWrite
-import mpei.vkr.Others.Permissions
-
+import androidx.test.platform.app.InstrumentationRegistry
+import mpei.vkr.Crypto.SecretKey
+import mpei.vkr.Others.KeyStoreClass
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import java.io.File
-import java.io.FileReader
+import java.security.KeyStore
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -31,7 +27,11 @@ class ExampleInstrumentedTest {
 
     @Test
     fun Test1() {
-        val k = Environment.getExternalStorageDirectory().absolutePath
-        println(k)
+        val keyStore = KeyStore.getInstance("JCEKS")
+        /*ks.load(null, "wadwadwa".toCharArray())
+        val secretKey = SecretKey("AES", 32).generateSecretKeyEncrypt()
+        val secretKeyEntry = KeyStore.SecretKeyEntry(secretKey)
+        val entryPassword = KeyStore.PasswordProtection("12345678".toCharArray())
+        ks.setEntry("wdadwadwa", secretKeyEntry, entryPassword) */
     }
 }

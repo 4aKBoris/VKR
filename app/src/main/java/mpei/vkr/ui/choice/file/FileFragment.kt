@@ -13,7 +13,6 @@ import mpei.vkr.ui.choice.file.placeholder.PlaceholderContent
 
 class FileFragment : Fragment() {
 
-
     private var columnCount = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

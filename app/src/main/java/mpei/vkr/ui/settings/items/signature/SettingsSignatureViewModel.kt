@@ -3,17 +3,14 @@
 package mpei.vkr.ui.settings.items.signature
 
 import android.app.Application
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.*
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import mpei.vkr.Constants.*
-import mpei.vkr.Constants.HashAlgorithm
-import mpei.vkr.Constants.HashCount
-import mpei.vkr.Constants.SHA256
+import mpei.vkr.Crypto.Algorithms
+import mpei.vkr.Constants.SHA256withRSA
 import mpei.vkr.Constants.SignatureAlgorithm
 import mpei.vkr.R
 
@@ -28,8 +25,8 @@ class SettingsSignatureViewModel(application: Application) : AndroidViewModel(ap
     fun chooseAlgorithm(view: View) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
         builder.setTitle("Выберите алгоритм цифровой подписи")
-        builder.setItems(sign.toTypedArray()) { _, which ->
-            _signatureAlgorithm.value = sign[which]
+        builder.setItems(alg.getSignatureAlgorithms().toTypedArray()) { _, which ->
+            _signatureAlgorithm.value = alg.getSignatureAlgorithm(which)
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
@@ -46,4 +43,7 @@ class SettingsSignatureViewModel(application: Application) : AndroidViewModel(ap
         editor.apply()
     }
 
+    companion object {
+        private val alg = Algorithms()
+    }
 }

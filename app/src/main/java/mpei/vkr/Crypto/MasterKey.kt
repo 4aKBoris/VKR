@@ -1,8 +1,11 @@
 package mpei.vkr.Crypto
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import mpei.vkr.Constants.AES
 import mpei.vkr.Constants.pathMasterKey
-import mpei.vkr.Others.FileReadWrite
+import mpei.vkr.Others.FileClass
 import java.io.File
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -26,21 +29,19 @@ class MasterKey(private val password: String) {
     private fun Decrypt(): ByteArray {
         val cipher = Cipher()
         val hash = Hash()
-        val file = FileReadWrite(pathMasterKey)
-        val arr = file.readFile()
+        val arr = file.readFileNotSuspend(pathMasterKey)
         iv = arr.copyOf(16)
         cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
         return cipher.doFinal(arr.copyOfRange(16, arr.size))
     }
 
-    fun CipherSecretKey() {
+    fun CipherSecretKey() = GlobalScope.launch(Dispatchers.Main) {
         val cipher = Cipher()
         val hash = Hash()
         secureRandom.nextBytes(iv)
         cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
         val arr = cipher.doFinal(byteArrayOf(1, 2, 3, 4, 5).plus(generateSecretKey().encoded))
-        val file = FileReadWrite(pathMasterKey)
-        file.writeFile(iv.plus(arr))
+        file.writeFile(pathMasterKey, iv.plus(arr))
     }
 
     fun DecryptEncreptMasterKey(pass: String) {
@@ -49,14 +50,13 @@ class MasterKey(private val password: String) {
         CipherSecretKey(masterKey, pass)
     }
 
-    private fun CipherSecretKey(secretKey: ByteArray, pass: String) {
+    private fun CipherSecretKey(secretKey: ByteArray, pass: String) = GlobalScope.launch(Dispatchers.Main) {
         val cipher = Cipher()
         val hash = Hash(pass)
         secureRandom.nextBytes(iv)
         cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
         val arr = cipher.doFinal(byteArrayOf(1, 2, 3, 4, 5).plus(secretKey))
-        val file = FileReadWrite(pathMasterKey)
-        file.writeFile(iv.plus(arr))
+        file.writeFile(pathMasterKey, iv.plus(arr))
     }
 
     private fun generateSecretKey(): SecretKey {
@@ -81,5 +81,6 @@ class MasterKey(private val password: String) {
     companion object {
         private val secureRandom = SecureRandom()
         private var iv = ByteArray(16)
+        private val file = FileClass()
     }
 }

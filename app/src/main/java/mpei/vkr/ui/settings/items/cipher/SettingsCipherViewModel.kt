@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
 import mpei.vkr.Constants.*
+import mpei.vkr.Crypto.Algorithms
 
 
 class SettingsCipherViewModel(application: Application) : AndroidViewModel(application),
@@ -22,20 +23,21 @@ class SettingsCipherViewModel(application: Application) : AndroidViewModel(appli
     val keySize: MutableLiveData<Int> = _keySize
     val keySizeMin: LiveData<Int> = MutableLiveData(0)
     val keySizeMax: LiveData<Int> =
-        Transformations.map(_cipherAlgorithm) { (keySizeCipher[it]!!.last() - keySizeCipher[it]!!.first()) / keySizeCipher[it]!![1] }
+        Transformations.map(_cipherAlgorithm) { (alg.getKeySizeMax(it) - alg.getKeySizeMin(it)) / alg.getKeySizeStep(it) }
     val step: LiveData<Int> =
-        Transformations.map(_cipherAlgorithm) { (_keySize.value!! - keySizeCipher[it]!!.first()) / keySizeCipher[it]!![1] }
+        Transformations.map(_cipherAlgorithm) { (_keySize.value!! - alg.getKeySizeMin(it)) / alg.getKeySizeStep(it) }
     val keySizeMinText: LiveData<String> =
-        Transformations.map(_cipherAlgorithm) { keySizeCipher[it]!!.first().toString() }
+        Transformations.map(_cipherAlgorithm) { alg.getKeySizeMin(it).toString() }
     val keySizeMaxText: LiveData<String> =
-        Transformations.map(_cipherAlgorithm) { keySizeCipher[it]!!.last().toString() }
+        Transformations.map(_cipherAlgorithm) { alg.getKeySizeMax(it).toString() }
 
     fun chooseAlgorithm(view: View) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
         builder.setTitle("Выберите алгоритм шифрования")
-        builder.setItems(cipherAlg.toTypedArray()) { _, which ->
-            _keySize.value = keySizeCipher[cipherAlg[which]]!!.last()
-            _cipherAlgorithm.value = cipherAlg[which]
+        builder.setItems(alg.getCipherAlgorithms().toTypedArray()) { _, which ->
+            val cipherAlgorithm = alg.getCipherAlgorithm(which)
+            _keySize.value = alg.getKeySizeMax(cipherAlgorithm)
+            _cipherAlgorithm.value = cipherAlgorithm
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
@@ -50,4 +52,7 @@ class SettingsCipherViewModel(application: Application) : AndroidViewModel(appli
         editor.apply()
     }
 
+    companion object {
+        private val alg = Algorithms()
+    }
 }

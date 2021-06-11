@@ -45,8 +45,8 @@
     <fragment
         android:id="@+id/fileFragment"
         android:name="mpei.vkr.ui.choice.file.FileFragment"
-        android:label="fragment_file_list"
-        tools:layout="@layout/fragment_file_list" >
+        android:label="Выбор файла"
+        tools:layout="@layout/fragment_file_list">
         <action
             android:id="@+id/action_fileFragment_to_nav_decrypt"
             app:destination="@id/nav_decrypt" />
@@ -57,8 +57,8 @@
     <fragment
         android:id="@+id/fileInfoFragment"
         android:name="mpei.vkr.ui.choice.file.FileInfoFragment"
-        android:label="file_info_fragment"
-        tools:layout="@layout/file_info_fragment" >
+        android:label="Информация о файле"
+        tools:layout="@layout/file_info_fragment">
         <action
             android:id="@+id/action_fileInfoFragment_to_fileFragment"
             app:destination="@id/fileFragment" />
@@ -78,8 +78,8 @@
     <fragment
         android:id="@+id/createCertificateFragment"
         android:name="mpei.vkr.ui.choice.certificate.CreateCertificateFragment"
-        android:label="create_certificate_fragment"
-        tools:layout="@layout/create_certificate_fragment" >
+        android:label="Создание сертификатов"
+        tools:layout="@layout/create_certificate_fragment">
         <action
             android:id="@+id/action_createCertificateFragment_to_nav_home"
             app:destination="@id/nav_home" />
