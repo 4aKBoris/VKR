@@ -14,95 +14,114 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.login.LoginActivity">
+        tools:context=".ui.settings.items.masterkey.change.ChangeMasterKeyActivity">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fragment"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            tools:ignore="ScrollViewSize">
+            android:layout_height="wrap_content"
+            android:background="@drawable/fragment">
 
             <TextView
-                style="@style/TextView"
-                android:layout_marginTop="10sp"
-                android:shadowColor="#ff0000"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="10"
+                android:id="@+id/textViewTitle"
+                style="@style/LoginTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/login_horizontal"
+                android:layout_marginTop="@dimen/login_vertical"
+                android:layout_marginEnd="@dimen/login_horizontal"
                 android:text="@string/enter_master_key"
-                android:textSize="34sp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/editTextPassword1"
                 style="@style/EditTextPassword"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/text_edit_password_height"
+                android:layout_marginStart="@dimen/login_horizontal"
+                android:layout_marginTop="@dimen/login_vertical"
+                android:layout_marginEnd="@dimen/login_horizontal"
                 android:ems="10"
                 android:hint="@string/enter_master_key_2"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:text="@={viewmodel.password1}"
-                app:visibility="@{viewmodel.visibility}"
-                tools:ignore="Autofill" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                app:visibility="@{viewmodel.visibility}"/>
 
             <EditText
                 android:id="@+id/editTextPassword2"
                 style="@style/EditTextPassword"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/text_edit_password_height"
+                android:layout_marginStart="@dimen/login_horizontal"
+                android:layout_marginTop="@dimen/login_vertical"
+                android:layout_marginEnd="@dimen/login_horizontal"
                 android:ems="10"
                 android:hint="@string/repeat_master_key"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:text="@={viewmodel.password2}"
-                app:visibility="@{viewmodel.visibility}"
-                tools:ignore="Autofill" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextPassword1"
+                app:visibility="@{viewmodel.visibility}"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100sp"
-                android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonConf"
+                style="@style/Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/login_horizontal"
+                android:layout_weight="1"
+                android:enabled="@{viewmodel.buttonEnabled}"
+                android:onClick="@{(view) -> viewmodel.buttonConfirm(view)}"
+                android:text="@string/confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/checkBoxVisible" />
 
-                <Button
-                    android:id="@+id/buttonConf"
-                    style="@style/Button"
-                    android:layout_width="120sp"
-                    android:layout_height="50sp"
-                    android:layout_marginStart="30sp"
-                    android:layout_marginEnd="30sp"
-                    android:layout_weight="1"
-                    android:enabled="@{viewmodel.buttonEnabled}"
-                    android:onClick="@{(view) -> viewmodel.buttonConfirm(view)}"
-                    android:text="@string/confirm" />
-
-                <ToggleButton
-                    android:id="@+id/checkBoxVisible"
-                    style="@style/ButtonVisibility"
-                    android:layout_width="0sp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginEnd="30sp"
-                    android:layout_marginBottom="10sp"
-                    android:layout_weight="1"
-                    android:textOff=""
-                    android:checked="@={viewmodel.visibility}"
-                    android:textOn="" />
-
-            </LinearLayout>
+            <ToggleButton
+                android:id="@+id/checkBoxVisible"
+                style="@style/ButtonVisibility"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_marginStart="@dimen/login_horizontal"
+                android:layout_marginTop="@dimen/login_vertical"
+                android:layout_weight="1"
+                android:checked="@={viewmodel.visibility}"
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextPassword2" />
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30sp"
-                android:layout_marginBottom="30sp"
+                android:layout_marginTop="@dimen/login_vertical"
                 android:src="@drawable/requirements_master_key"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonConf"
                 tools:ignore="ContentDescription" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView2"
                 android:name="mpei.vkr.ui.login.WarningFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewmodel.warning ? View.VISIBLE : View.INVISIBLE}" />
+                android:layout_height="100sp"
+                android:layout_marginTop="@dimen/login_vertical"
+                android:layout_marginBottom="@dimen/login_vertical"
+                android:visibility="@{viewmodel.warning ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView2" />
 
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
