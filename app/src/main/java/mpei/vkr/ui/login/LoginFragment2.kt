@@ -26,6 +26,7 @@ class LoginFragment2 : DialogFragment() {
         _binding = FragmentLogin2Binding.inflate(inflater, container, false)
         binding.login = loginViewModel
         binding.lifecycleOwner = this
+        lifecycle.addObserver(loginViewModel)
         return binding.root
     }
 }
