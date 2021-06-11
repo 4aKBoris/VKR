@@ -11,12 +11,14 @@ import java.io.*
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import kotlin.jvm.Throws
+import kotlin.math.pow
 
 class FileClass {
 
     suspend fun writeFile(fileName: String, arr: ByteArray) = withContext(Dispatchers.IO) {
         val bw = BufferedOutputStream(FileOutputStream(File(fileName)))
         bw.write(arr)
+        bw.flush()
         bw.close()
     }
 
@@ -40,15 +42,17 @@ class FileClass {
         return if (!File(fileName).exists()) ""
         else {
             when (val size = File(fileName).length()) {
-                in 0..999 -> "$size Байт"
-                in 1000..999999 -> String.format(rule, size.toDouble() / 1000).plus(" КБ")
-                in 1000000..999999999 -> String.format(rule, size.toDouble() / 1000000).plus(" МБ")
-                in 1000000000..999999999999 -> String.format(rule, size.toDouble() / 1000000000)
+                in 0..pow(1) -> "$size Байт"
+                in pow(1)..pow(2) -> String.format(rule, size.toDouble() / pow(1)).plus(" КБ")
+                in pow(2)..pow(3) -> String.format(rule, size.toDouble() / pow(2)).plus(" МБ")
+                in pow(3)..pow(4) -> String.format(rule, size.toDouble() / pow(3))
                     .plus(" ГБ")
-                else -> String.format(rule, size.toDouble() / 1000000000000).plus(" ТБ")
+                else -> String.format(rule, size.toDouble() / pow(4)).plus(" ТБ")
             }
         }
     }
+
+    private fun pow(i: Int) = 1024.0.pow(i.toDouble()).toInt()
 
     fun fileName(path: String): String = File(path).name
 

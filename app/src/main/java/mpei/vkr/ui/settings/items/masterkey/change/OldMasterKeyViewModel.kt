@@ -3,6 +3,7 @@ package mpei.vkr.ui.settings.items.masterkey.change
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Message
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.findFragment
@@ -33,19 +34,19 @@ class OldMasterKeyViewModel : ViewModel(), CoroutineScope {
     fun buttonConfirm(view: View) = launch(Dispatchers.Main) {
         _warning.value = false
         try {
-            isCorrect(_password.value)
+            val masterKey = MasterKey(_password.value!!)
+            if (!masterKey.isCorrect()) throw MyException("Мастер ключ введён неверно!")
             findNavController(view.findFragment()).navigate(R.id.action_oldMasterKeyFragment_to_newMasterKeyFragment,
             Bundle().apply { putString(ARG_MASTER_KEY, _password.value!!) })
         } catch (e: MyException) {
-            warningFragment.visible(e.message!!)
-            changeVisible()
+            changeVisible(e.message!!)
         } catch (e: Exception) {
-            warningFragment.visible("Мастер ключ введён неверно!")
-            changeVisible()
+            changeVisible("Мастер ключ введён неверно!")
         }
     }
 
-    private suspend fun changeVisible() {
+    private suspend fun changeVisible(message: String) {
+        warningFragment.visible(message)
         _warning.value = true
         delay(3000L)
         _warning.value = false
@@ -55,18 +56,11 @@ class OldMasterKeyViewModel : ViewModel(), CoroutineScope {
         get() = Dispatchers.Main + job + CoroutineExceptionHandler { _, e -> throw e }
 
     companion object {
-
         private val job = SupervisorJob()
 
         @SuppressLint("StaticFieldLeak")
         private val warningFragment = WarningFragment()
 
-        @Throws(MyException::class)
-        suspend fun isCorrect(pass: String?) {
-            if (pass == null) throw MyException("Введите мастер ключ!")
-            val mk = MasterKey(pass)
-            if (pass.isEmpty()) throw MyException("Введите мастер ключ!")
-            if (!mk.isCorrect()) throw MyException("Мастер ключ введён неверно!")
-        }
+
     }
 }

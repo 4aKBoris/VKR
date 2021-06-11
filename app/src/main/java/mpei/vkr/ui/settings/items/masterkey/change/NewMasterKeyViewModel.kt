@@ -1,23 +1,36 @@
+@file:Suppress("DEPRECATION")
+
 package mpei.vkr.ui.settings.items.masterkey.change
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Intent
+import android.preference.PreferenceManager
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import mpei.vkr.Constants.*
 import mpei.vkr.Constants.ARG_MASTER_KEY
+import mpei.vkr.Constants.LENGTH
+import mpei.vkr.Constants.useBigLetter
+import mpei.vkr.Constants.useLittleLetter
+import mpei.vkr.Constants.useSpecialSymbols
 import mpei.vkr.Crypto.MasterKey
 import mpei.vkr.Exception.MyException
 import mpei.vkr.MainActivity
+import mpei.vkr.Others.Password
 import mpei.vkr.Regex.RegexExpr
 import mpei.vkr.ui.login.WarningFragment
 import kotlin.coroutines.CoroutineContext
 import kotlin.jvm.Throws
 
-class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
+class NewMasterKeyViewModel(application: Application) : AndroidViewModel(application),
+    CoroutineScope {
+    private val sp = PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
     private val _password1 = MutableLiveData("")
     private val _password2 = MutableLiveData("")
     private val _visibility = MutableLiveData(false)
@@ -35,8 +48,17 @@ class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
         _warning.value = false
         _buttonEnabled.value = false
         try {
-            isCorrect(_password1.value, _password2.value, masterKey)
-            //MasterKey(masterKey).DecryptEncreptMasterKey(_password1.value!!)
+            correct.isCorrectMasterKey(
+                _password1.value,
+                _password2.value,
+                masterKey,
+                sp.getBoolean(useLittleLetter, true),
+                sp.getBoolean(useBigLetter, true),
+                sp.getBoolean(useSpecialSymbols, true),
+                sp.getString(LENGTH, "8")!!.toInt()
+            )
+            val mK = MasterKey(masterKey)
+            mK.changeMasterKey(_password1.value!!)
             val intent = Intent(view.context, MainActivity::class.java)
             intent.putExtra(ARG_MASTER_KEY, _password1.value)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -52,29 +74,13 @@ class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
     }
 
     override val coroutineContext: CoroutineContext
-    get() = Dispatchers.Main + job + CoroutineExceptionHandler { _, e -> throw e }
+        get() = Dispatchers.Main + job + CoroutineExceptionHandler { _, e -> throw e }
 
     companion object {
-
         private val job = SupervisorJob()
+        private val correct = Password()
 
         @SuppressLint("StaticFieldLeak")
         private val warningFragment = WarningFragment()
-        private val regex = RegexExpr()
-
-        @Throws(MyException::class)
-        suspend fun isCorrect(pass1: String?, pass2: String?, pass3: String) {
-            if ((pass1 == null || pass2 == null) || (pass1.isEmpty() || pass2.isEmpty())) throw MyException(
-                "Введите мастер ключ!"
-            )
-            if (pass1 != pass2) throw MyException("Введённые мастер ключи не совпадают!")
-            if (!regex.regLittle.containsMatchIn(pass1) || !regex.regBig.containsMatchIn(
-                    pass1
-                ) || !regex.regSpecial.containsMatchIn(pass1)
-            ) throw MyException("Мастер ключ не соответствует требованиям!")
-            if (pass1 == pass3) throw MyException("Старый и новый мастер ключи не должны совпадать!")
-            val mk = MasterKey(pass1)
-            mk.encryptSecretKey()
-        }
     }
 }

@@ -29,6 +29,20 @@ class Password {
         if (password1.length < length) throw MyException("Длина мастер ключа меньше необходимой!")
     }
 
+    @Throws(MyException::class)
+    fun isCorrectMasterKey(
+        password1: String?,
+        password2: String?,
+        masterKey: String,
+        little: Boolean,
+        big: Boolean,
+        special: Boolean,
+        length: Int
+    ) {
+        if (masterKey == password1) throw MyException("Новый мастер ключ не должен совпадать со старым!")
+        isCorrectMasterKey(password1, password2, little, big, special, length)
+    }
+
     companion object {
         private val reg = RegexExpr()
         private fun contains(regex: Regex, password: String) = regex.containsMatchIn(password)

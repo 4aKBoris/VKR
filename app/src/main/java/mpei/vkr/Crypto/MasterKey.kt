@@ -23,6 +23,24 @@ class MasterKey(password: String) {
         file.writeFile(pathMasterKey, cipher.encrypt().first)
     }
 
+    suspend fun decryptSecretKey(): ByteArray = withContext(Dispatchers.Default) {
+        val masterKeyByteArray = file.readFile(pathMasterKey)
+        val cipher = CipherFile(masterKeyByteArray, RC4, _100, secretKey)
+        val masterKey = cipher.decrypt(null)
+        masterKey.drop(8).toByteArray()
+    }
+
+    suspend fun changeMasterKey(password: String) {
+        val key = decryptSecretKey()
+        encryptSecretKey(key, password)
+    }
+
+    private suspend fun encryptSecretKey(masterKey: ByteArray, password: String) = withContext(Dispatchers.Default) {
+        val sK = secretKeyRC4.generateSecretKeyEncrypt(password, SHA256, _100, false).first
+        val cipher = CipherFile(check.plus(masterKey), RC4, _100, sK)
+        file.writeFile(pathMasterKey, cipher.encrypt().first)
+    }
+
     @Throws(Exception::class)
     suspend fun isCorrect(): Boolean = withContext(Dispatchers.Default) {
         val arr = file.readFile(pathMasterKey)
