@@ -65,7 +65,6 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
 
     @SuppressLint("CommitPrefEdits")
     fun encryptFile(view: View) = launch(Dispatchers.Default) {
-        encryptProgressBar(true)
         try {
             val enc = Encrypt(
                 metaData,
@@ -83,6 +82,7 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
                 view.context,
                 password
             )
+            encryptProgressBar(true)
             enc.encrypt()
             toast.suspendShow(view.context, "Файл зашифрован!")
         } catch (e: MyException) {

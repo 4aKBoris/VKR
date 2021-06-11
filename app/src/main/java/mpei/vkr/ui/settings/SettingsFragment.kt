@@ -30,6 +30,7 @@ class SettingsFragment : Fragment() {
         "Хэш-функция",
         "Цифровая подпись",
         "Мастер-ключ",
+        "Блокировка",
         "Другие"
     )
 
@@ -38,12 +39,6 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (arguments != null) {
-            // The getPrivacyPolicyLink() method will be created automatically.
-            val url: String = requireArguments().getString("MasterKey")!!
-            println(url)
-        }
-        else println("54321")
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
         val adapter = this.activity?.let { SettingsAdapter(it) }
         binding.pager.adapter = adapter

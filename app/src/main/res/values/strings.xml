@@ -67,4 +67,9 @@
     <string name="enter_data">Ввод данных</string>
     <string name="_8">8</string>
     <string name="_32">32</string>
+    <string name="block_app">Блокировка приложения</string>
+    <string name="length_block">Длина блокировки (в часах)</string>
+    <string name="_72">72</string>
+    <string name="count_trying">Количество попыток ввода мастер ключа</string>
+    <string name="_10">10</string>
 </resources>

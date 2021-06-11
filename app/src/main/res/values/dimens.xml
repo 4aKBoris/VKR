@@ -7,6 +7,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="list_view">7sp</dimen>
+    <dimen name="text_edit_password_height">50sp</dimen>
+    <dimen name="image_size">50sp</dimen>
 
     <!-- Настройки мастер ключа -->
     <dimen name="settings_master_key_title">15sp</dimen>
@@ -32,6 +34,11 @@
     <dimen name="settings_cipher_vertical">30sp</dimen>
     <dimen name="settings_cipher_horizontal">40sp</dimen>
 
+    <!-- Настройки блокировки приложения -->
+    <dimen name="settings_lockdown_title">15sp</dimen>
+    <dimen name="settings_lockdown_vertical">30sp</dimen>
+    <dimen name="settings_lockdown_horizontal">40sp</dimen>
+
     <!-- Настройки SeekBar -->
     <dimen name="seek_bar_text">5sp</dimen>
     <dimen name="seek_bar_horizontal">20sp</dimen>
@@ -43,6 +50,11 @@
     <!-- Decrypt Fragment -->
     <dimen name="decrypt_vertical">30sp</dimen>
     <dimen name="decrypt_horizontal">40sp</dimen>
+
+    <!-- Login Fragment -->
+    <dimen name="login_vertical">30sp</dimen>
+    <dimen name="login_horizontal">40sp</dimen>
+    <dimen name="login_horizontal_2">20sp</dimen>
 
     <dimen name="certificate_1">100sp</dimen>
     <dimen name="certificate_2">50sp</dimen>

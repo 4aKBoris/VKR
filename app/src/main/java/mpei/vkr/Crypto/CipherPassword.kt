@@ -30,6 +30,5 @@ open class CipherPassword {
     companion object {
         private val secureRandom = SecureRandom()
         private val cipher = Cipher.getInstance("RSA")
-        private const val bit = 8
     }
 }

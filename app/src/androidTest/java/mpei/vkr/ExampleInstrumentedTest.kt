@@ -2,14 +2,17 @@
 
 package mpei.vkr
 
+import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import mpei.vkr.Constants.LOG_TAG
 import mpei.vkr.Crypto.SecretKey
 import mpei.vkr.Others.KeyStoreClass
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.security.KeyStore
+import java.util.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -27,11 +30,8 @@ class ExampleInstrumentedTest {
 
     @Test
     fun Test1() {
-        val keyStore = KeyStore.getInstance("JCEKS")
-        /*ks.load(null, "wadwadwa".toCharArray())
-        val secretKey = SecretKey("AES", 32).generateSecretKeyEncrypt()
-        val secretKeyEntry = KeyStore.SecretKeyEntry(secretKey)
-        val entryPassword = KeyStore.PasswordProtection("12345678".toCharArray())
-        ks.setEntry("wdadwadwa", secretKeyEntry, entryPassword) */
+        val time = Calendar.getInstance()
+        time.add(Calendar.DATE, 1)
+        Log.d(LOG_TAG, "dwa")
     }
 }

@@ -37,10 +37,10 @@ class OldMasterKeyViewModel : ViewModel(), CoroutineScope {
             findNavController(view.findFragment()).navigate(R.id.action_oldMasterKeyFragment_to_newMasterKeyFragment,
             Bundle().apply { putString(ARG_MASTER_KEY, _password.value!!) })
         } catch (e: MyException) {
-            warningFragment.Visible(e.message!!)
+            warningFragment.visible(e.message!!)
             changeVisible()
         } catch (e: Exception) {
-            warningFragment.Visible("Мастер ключ введён неверно!")
+            warningFragment.visible("Мастер ключ введён неверно!")
             changeVisible()
         }
     }
@@ -62,11 +62,11 @@ class OldMasterKeyViewModel : ViewModel(), CoroutineScope {
         private val warningFragment = WarningFragment()
 
         @Throws(MyException::class)
-        private fun isCorrect(pass: String?) {
+        suspend fun isCorrect(pass: String?) {
             if (pass == null) throw MyException("Введите мастер ключ!")
             val mk = MasterKey(pass)
             if (pass.isEmpty()) throw MyException("Введите мастер ключ!")
-            if (!mk.IsCorrect()) throw MyException("Мастер ключ введён неверно!")
+            if (!mk.isCorrect()) throw MyException("Мастер ключ введён неверно!")
         }
     }
 }

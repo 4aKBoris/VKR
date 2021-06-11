@@ -36,13 +36,13 @@ class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
         _buttonEnabled.value = false
         try {
             isCorrect(_password1.value, _password2.value, masterKey)
-            MasterKey(masterKey).DecryptEncreptMasterKey(_password1.value!!)
+            //MasterKey(masterKey).DecryptEncreptMasterKey(_password1.value!!)
             val intent = Intent(view.context, MainActivity::class.java)
             intent.putExtra(ARG_MASTER_KEY, _password1.value)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(view.context, intent, null)
         } catch (e: MyException) {
-            warningFragment.Visible(e.message!!)
+            warningFragment.visible(e.message!!)
             _warning.value = true
             delay(3000L)
             _warning.value = false
@@ -63,7 +63,7 @@ class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
         private val regex = RegexExpr()
 
         @Throws(MyException::class)
-        private fun isCorrect(pass1: String?, pass2: String?, pass3: String) {
+        suspend fun isCorrect(pass1: String?, pass2: String?, pass3: String) {
             if ((pass1 == null || pass2 == null) || (pass1.isEmpty() || pass2.isEmpty())) throw MyException(
                 "Введите мастер ключ!"
             )
@@ -74,7 +74,7 @@ class NewMasterKeyViewModel : ViewModel(), CoroutineScope {
             ) throw MyException("Мастер ключ не соответствует требованиям!")
             if (pass1 == pass3) throw MyException("Старый и новый мастер ключи не должны совпадать!")
             val mk = MasterKey(pass1)
-            mk.CipherSecretKey()
+            mk.encryptSecretKey()
         }
     }
 }

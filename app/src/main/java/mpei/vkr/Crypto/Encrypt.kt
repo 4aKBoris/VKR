@@ -80,7 +80,7 @@ class Encrypt(
             metaData.certificate = pair.second
         }
         if (cipherPasswordFlag) {
-            if (certificateAlias.isNullOrBlank() || certificateAlias == "") throw MyException("Выберите сертифкат для шифрования пароля!")
+            if (certificateAlias.isNullOrBlank() || certificateAlias == "Выберите сертификат") throw MyException("Выберите сертифкат для шифрования пароля!")
             metaData.cipherPassword = cipherPassword(secretKey, certificateAlias)
         }
         file.writeFile(
@@ -115,6 +115,6 @@ class Encrypt(
     companion object {
         private val rnd = Random
         private val file = FileClass()
-        private val correct = Password(true)
+        private val correct = Password()
     }
 }
