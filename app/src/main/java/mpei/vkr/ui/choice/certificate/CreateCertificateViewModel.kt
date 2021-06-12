@@ -2,6 +2,7 @@
 
 package mpei.vkr.ui.choice.certificate
 
+import android.preference.PreferenceManager
 import android.provider.Settings.Secure.ANDROID_ID
 import android.util.Log
 import android.view.View
@@ -11,20 +12,17 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import kotlinx.coroutines.*
 import mpei.vkr.Constants.*
 import mpei.vkr.Crypto.Algorithms
+import mpei.vkr.Others.KeyStoreClass
 import mpei.vkr.Others.ToastShow
 import mpei.vkr.R
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.x509.X509V3CertificateGenerator
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.math.BigInteger
 import java.security.KeyPairGenerator
-import java.security.KeyStore
 import java.security.Security
 import java.util.*
 import javax.security.auth.x500.X500Principal
 import kotlin.coroutines.CoroutineContext
-
 
 @Suppress("SameParameterValue")
 class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserver {
@@ -45,7 +43,8 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
 
     fun onButtonCreate(view: View) = launch(Dispatchers.IO) {
         try {
-            createCertificates()
+            val sp = PreferenceManager.getDefaultSharedPreferences(view.context)
+            createCertificates(sp.getString(mpei.vkr.Constants.MasterKey, "")!!)
             toast.suspendShow(view.context, "Сертификаты успешно созданы!")
             findNavController(view.findFragment()).navigate(R.id.action_createCertificateFragment_to_nav_home)
         } catch (e: Exception) {
@@ -53,35 +52,15 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
         }
     }
 
-    private suspend fun createCertificates() {
-        val keyStoreData = FileInputStream(PATH_KEY_STORE)
-        val keyStore = KeyStore.getInstance(KEY_STORE_ALGORITHM)
-        keyStore.load(keyStoreData, password.toCharArray())
-        alg.getSignatureAlgorithms().filter { it != "Не использовать" }.forEach {
-            Security.addProvider(BouncyCastleProvider())
-            val keyPairGenerator = KeyPairGenerator.getInstance(s(it))
-            val keyPair = keyPairGenerator.generateKeyPair()
-            val gen = X509V3CertificateGenerator()
-            val serverCommonName = X500Principal("CN=${_name.value}")
-            val server =
-                X500Principal("CN=${_name.value}, OU=${_organizationalUnit.value}, O=${_organizationName.value}, L=${_locality.value},  ST=${_state.value}, C=RU")
-            gen.setSerialNumber(BigInteger(ANDROID_ID.toByteArray()))
-            val after = Date(2030, 1, 1, 0, 0, 0)
-            val before = Calendar.getInstance().time
-            gen.setIssuerDN(serverCommonName)
-            gen.setNotBefore(before)
-            gen.setNotAfter(after)
-            gen.setSubjectDN(serverCommonName)
-            gen.setSubjectDN(server)
-            gen.setPublicKey(keyPair.public)
-            gen.setSignatureAlgorithm(it)
-            val myCert = gen.generate(keyPair.private)
-            keyStore.setCertificateEntry(Certificate + it, myCert)
-            keyStore.setKeyEntry(PrivateKey + it, keyPair.private, it.toCharArray(), arrayOf(myCert))
-            setProgress()
+    private suspend fun createCertificates(masterKey: String) {
+        val keyStore = KeyStoreClass(masterKey)
+        val a = alg.getSignatureAlgorithms().filter { it != "Не использовать" }.toMutableList()
+        a.add(SecretKey)
+        a.forEach {
+            if (it != SecretKey) generateCertificate(it, it, keyStore)
+            else generateCertificate(SHA256withRSA, it, keyStore)
         }
-        val keyStoreOutputStream = FileOutputStream(PATH_KEY_STORE)
-        keyStore.store(keyStoreOutputStream, password.toCharArray())
+        keyStore.saveKeyStore()
     }
 
     private suspend fun setProgress() {
@@ -97,20 +76,40 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
         _progress.value = 0
     }
 
+    private suspend fun generateCertificate(alg: String, alias: String, keyStore: KeyStoreClass) {
+        Security.addProvider(BouncyCastleProvider())
+        val keyPairGenerator = KeyPairGenerator.getInstance(s(alg))
+        val keyPair = keyPairGenerator.generateKeyPair()
+        val gen = X509V3CertificateGenerator()
+        val serverCommonName = X500Principal("CN=${_name.value}")
+        val server =
+            X500Principal("CN=${_name.value}, OU=${_organizationalUnit.value}, O=${_organizationName.value}, L=${_locality.value},  ST=${_state.value}, C=RU")
+        gen.setSerialNumber(BigInteger(ANDROID_ID.toByteArray()))
+        val after = Date(2030, 1, 1, 0, 0, 0)
+        val before = Calendar.getInstance().time
+        gen.setIssuerDN(serverCommonName)
+        gen.setNotBefore(before)
+        gen.setNotAfter(after)
+        gen.setSubjectDN(serverCommonName)
+        gen.setSubjectDN(server)
+        gen.setPublicKey(keyPair.public)
+        gen.setSignatureAlgorithm(alg)
+        val myCert = gen.generate(keyPair.private)
+        keyStore.setCertificate(myCert, Certificate + alias)
+        keyStore.setPrivateKey(keyPair.private, PrivateKey + alias, myCert)
+        setProgress()
+    }
+
     companion object {
-        private const val password = "12345678"
         private val job = SupervisorJob()
         private var toast = ToastShow()
         private val alg = Algorithms()
 
-        @JvmStatic
-        private fun s(sign_alg: String): String {
-            return when {
-                sign_alg.indexOf("EC") != -1 -> "EC"
-                sign_alg.indexOf("with") == -1 -> sign_alg
-                else -> sign_alg.substring(sign_alg.indexOf("with") + 4)
-            }
+        private fun s(alg: String) = when {
+            alg.contains("ECDSA") -> "EC"
+            alg.contains("RSA") -> "RSA"
+            alg.contains("DSA") -> "DSA"
+            else -> "RSA"
         }
     }
-
 }

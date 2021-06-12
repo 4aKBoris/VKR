@@ -17,7 +17,13 @@ import mpei.vkr.Constants.LENGTH
 import mpei.vkr.databinding.SettingsMasterKeyFragmentBinding
 
 
-class SettingsMasterKeyFragment : Fragment() {
+class SettingsMasterKeyFragment() : Fragment() {
+
+    constructor(password: String) : this() {
+       this.password = password
+    }
+
+    private var password = ""
 
     private var _binding: SettingsMasterKeyFragmentBinding? = null
     private lateinit var viewModel: SettingsMasterKeyViewModel

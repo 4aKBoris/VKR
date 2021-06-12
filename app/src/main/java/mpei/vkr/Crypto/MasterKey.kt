@@ -2,11 +2,13 @@ package mpei.vkr.Crypto
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import mpei.vkr.Constants.AES
 import mpei.vkr.Constants.RC4
 import mpei.vkr.Constants.SHA256
+import mpei.vkr.Constants.SHA512
 import mpei.vkr.Constants.pathMasterKey
 import mpei.vkr.Others.FileClass
+import org.bouncycastle.util.encoders.Base64
+import java.security.SecureRandom
 import javax.crypto.SecretKey
 
 class MasterKey(password: String) {
@@ -14,21 +16,23 @@ class MasterKey(password: String) {
     private val secretKey: SecretKey
 
     init {
-       secretKey = secretKeyRC4.generateSecretKeyEncrypt(password, SHA256, _100, false).first
+       secretKey = secretKeyRC4.generateSecretKeyEncrypt(password, SHA512, _100, false).first
     }
 
     suspend fun encryptSecretKey() = withContext(Dispatchers.Default) {
-        val masterKey = secretKeyAES.generateSecretKeyEncrypt().encoded
+        val masterKey = secureRandom.generateSeed(64)
         val cipher = CipherFile(check.plus(masterKey), RC4, _100, secretKey)
         file.writeFile(pathMasterKey, cipher.encrypt().first)
     }
 
-    suspend fun decryptSecretKey(): ByteArray = withContext(Dispatchers.Default) {
-        val masterKeyByteArray = file.readFile(pathMasterKey)
+    private fun decryptSecretKey(): ByteArray {
+        val masterKeyByteArray = file.readFileNotSuspend(pathMasterKey)
         val cipher = CipherFile(masterKeyByteArray, RC4, _100, secretKey)
         val masterKey = cipher.decrypt(null)
-        masterKey.drop(8).toByteArray()
+        return masterKey.drop(8).toByteArray()
     }
+
+    fun getMasterKey() = Base64.toBase64String(decryptSecretKey())
 
     suspend fun changeMasterKey(password: String) {
         val key = decryptSecretKey()
@@ -50,8 +54,8 @@ class MasterKey(password: String) {
     }
 
     companion object {
-        private val secretKeyAES = SecretKey(AES, 32)
-        private val secretKeyRC4 = SecretKey("RC4", 32)
+        private val secureRandom = SecureRandom()
+        private val secretKeyRC4 = SecretKey("RC4", 64)
         private val file = FileClass()
         private const val _100 = 100
         private val check = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8)

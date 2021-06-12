@@ -93,29 +93,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonDecrypt" />
 
-            <TextView
-                android:id="@+id/textViewCertificate"
-                android:name="mpei.vkr.ui.choice.certificate.ChoiceCertificateEncryptFragment"
-                style="@style/SettingsTitle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/encrypt_vertical"
-                android:visibility='@{viewmodel.cipherPassword ? View.VISIBLE: View.GONE}'
-                android:text="@{viewmodel.certificate}"
-                android:onClick="@{(view) -> viewmodel.chooseCertificate(view)}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewFileName" />
-
             <ProgressBar
                 android:id="@+id/progressBarDecrypt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100sp"
                 android:layout_marginTop="@dimen/encrypt_vertical"
+                android:indeterminateDrawable="@drawable/progress_bar_circle"
                 android:visibility="@{viewmodel.encrypt ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewCertificate"
+                app:layout_constraintTop_toBottomOf="@id/textViewFileName"
                 tools:foregroundTint="#FF0000" />
 
             <TextView

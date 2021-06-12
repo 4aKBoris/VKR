@@ -17,8 +17,7 @@ open class CipherPassword {
         return cipher.doFinal(password)
     }
 
-    protected fun decrypt(key: ByteArray, password: String, cipherAlgorithm: String, keySize: Int): SecretKey {
-        val keyStore = KeyStoreClass(password)
+    protected fun decrypt(key: ByteArray, keyStore: KeyStoreClass, cipherAlgorithm: String, keySize: Int): SecretKey {
         val privateKey = keyStore.getPrivateKey()
         cipher.init(Cipher.DECRYPT_MODE, privateKey, secureRandom)
         Log.d(LOG_TAG, keySize.toString())

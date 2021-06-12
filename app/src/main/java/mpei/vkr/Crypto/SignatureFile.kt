@@ -1,19 +1,17 @@
 package mpei.vkr.Crypto
 
 import mpei.vkr.Constants.Certificate
+import mpei.vkr.Constants.PrivateKey
 import mpei.vkr.Others.KeyStoreClass
 import org.bouncycastle.jce.provider.BouncyCastleProvider
-import java.io.ByteArrayInputStream
 import java.security.SecureRandom
 import java.security.Signature
 import java.security.cert.Certificate
-import java.security.cert.CertificateFactory
 
 class SignatureFile(private val signatureAlgorithm: String) {
 
-    fun getSignature(arr: ByteArray, password: String): Pair<ByteArray, ByteArray> {
-        val keyStore = KeyStoreClass(password)
-        val privateKeyEntry = keyStore.getPrivateKeyEntry(signatureAlgorithm)
+    fun getSignature(arr: ByteArray, keyStore: KeyStoreClass): Pair<ByteArray, ByteArray> {
+        val privateKeyEntry = keyStore.getPrivateKeyEntry(PrivateKey + signatureAlgorithm)
         val signature = Signature.getInstance(signatureAlgorithm, BouncyCastleProvider())
         signature.initSign(privateKeyEntry.privateKey, secureRandom)
         signature.update(arr)

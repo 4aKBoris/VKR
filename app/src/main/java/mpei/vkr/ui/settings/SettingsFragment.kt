@@ -4,23 +4,14 @@ package mpei.vkr.ui.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.databinding.SettingsFragmentBinding
 
 class SettingsFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            println(it.getString(ARG_MASTER_KEY))
-        }
-    }
 
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -42,11 +33,9 @@ class SettingsFragment : Fragment() {
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
         val adapter = this.activity?.let { SettingsAdapter(it) }
         binding.pager.adapter = adapter
-
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
-
         return binding.root
     }
 

@@ -4,6 +4,7 @@ package mpei.vkr.Crypto
 
 import android.util.Log
 import mpei.vkr.Constants.LOG_TAG
+import mpei.vkr.Exception.MyException
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -22,6 +23,7 @@ class CipherFile(
         return Pair(crypto(arr, cipherPair.first, cipherCount), cipherPair.second)
     }
 
+    @Throws(MyException::class)
     fun decrypt(iv: ByteArray?): ByteArray {
         val cipher = cipherInit(cipherAlgorithm, secretKey, iv)
         return crypto(arr, cipher, cipherCount)
@@ -32,7 +34,7 @@ class CipherFile(
         private val alg = Algorithms()
 
         private fun crypto(arr: ByteArray, cipher: Cipher, cipherCount: Int): ByteArray {
-            for (i in 1 until cipherCount) cipher.update(arr)
+            for (i in 1 until cipherCount) cipher.doFinal(arr)
             return cipher.doFinal(arr)
         }
 
@@ -42,7 +44,7 @@ class CipherFile(
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey, secureRandom)
                 Pair(cipher, null)
             } else {
-                val cipher = Cipher.getInstance("$cipherAlgorithm/CBC/PKCS5Padding", BouncyCastleProvider())
+                val cipher = Cipher.getInstance("$cipherAlgorithm/CBC/PKCS7Padding", BouncyCastleProvider())
                 val iv = secureRandom.generateSeed(alg.getIVSize(cipherAlgorithm))
                 Log.d(LOG_TAG, alg.getIVSize(cipherAlgorithm).toString())
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey, IvParameterSpec(iv), secureRandom)

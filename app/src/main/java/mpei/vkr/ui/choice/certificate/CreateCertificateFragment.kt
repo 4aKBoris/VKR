@@ -1,15 +1,11 @@
 package mpei.vkr.ui.choice.certificate
 
-import android.app.Activity
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import mpei.vkr.R
-import mpei.vkr.databinding.CertificateFragmentBinding
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import mpei.vkr.databinding.CreateCertificateFragmentBinding
 
 class CreateCertificateFragment : Fragment() {

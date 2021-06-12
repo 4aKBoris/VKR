@@ -15,7 +15,11 @@
         android:id="@+id/nav_encrypt"
         android:name="mpei.vkr.ui.encrypt.EncryptFragment"
         android:label="@string/encrypt_files"
-        tools:layout="@layout/fragment_encrypt" />
+        tools:layout="@layout/fragment_encrypt" >
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_decrypt"
@@ -28,16 +32,15 @@
         <argument
             android:name="fileName"
             app:argType="string" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="mpei.vkr.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/settings_fragment" >
-        <argument
-            android:name="MasterKey"
-            app:argType="string"
-            android:defaultValue="12345"/>
         <action
             android:id="@+id/action_nav_settings_to_nav_certificate"
             app:destination="@id/nav_certificate" />
@@ -53,6 +56,9 @@
         <action
             android:id="@+id/action_fileFragment_to_fileInfoFragment"
             app:destination="@id/fileInfoFragment" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fileInfoFragment"
@@ -74,6 +80,9 @@
         <action
             android:id="@+id/action_nav_certificate_to_createCertificateFragment"
             app:destination="@id/createCertificateFragment" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/createCertificateFragment"

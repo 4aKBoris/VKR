@@ -1,5 +1,6 @@
 package mpei.vkr.Crypto
 
+import mpei.vkr.Others.KeyStoreClass
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -24,12 +25,12 @@ class SecretKey(private val cipherAlgorithm: String, private val keySize: Int): 
     ): Pair<SecretKey, ByteArray?> {
         val salt = if (saltFlag) secureRandom.generateSeed(16) else null
         val key = messageDigest(password.toByteArray(Charsets.UTF_8), hashAlgorithm, hashCount, salt)
-        return Pair(SecretKeySpec(key, 0, keySize * bit, cipherAlgorithm), salt)
+        return Pair(SecretKeySpec(key, 0, keySize, cipherAlgorithm), salt)
     }
 
     fun getCipherSecretKey(secretKey: SecretKey, certificate: Certificate) = encrypt(secretKey, certificate)
 
-    fun getSecretKeyDecrypt(key: ByteArray) = decrypt(key, "12345678", cipherAlgorithm, keySize)
+    fun getSecretKeyDecrypt(key: ByteArray, keyStore: KeyStoreClass) = decrypt(key, keyStore, cipherAlgorithm, keySize)
 
     fun getSecretKeyDecrypt(password: String, hashAlgorithm: String, hashCount: Int, salt: ByteArray?): SecretKey {
         val key = messageDigest(password.toByteArray(Charsets.UTF_8), hashAlgorithm, hashCount, salt)

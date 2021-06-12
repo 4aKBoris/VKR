@@ -2,12 +2,15 @@
 
 package mpei.vkr.ui.choice.certificate
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import mpei.vkr.databinding.CertificateFragmentBinding
@@ -18,6 +21,8 @@ class CertificateFragment : Fragment() {
     private lateinit var viewModel: CertificateViewModel
     private val binding get() = _binding!!
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -11,7 +11,6 @@ import android.app.Application
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import mpei.vkr.Constants.*
@@ -19,7 +18,6 @@ import mpei.vkr.Crypto.Encrypt
 import mpei.vkr.Crypto.MetaData
 import mpei.vkr.Exception.MyException
 import mpei.vkr.Others.FileClass
-import mpei.vkr.Others.KeyStoreClass
 import mpei.vkr.Others.ToastShow
 import kotlin.coroutines.CoroutineContext
 
@@ -41,10 +39,11 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
     private val _secondPassword = MutableLiveData(sp.getBoolean(SecondPassword, true))
     private val _cipherPassword = MutableLiveData(sp.getBoolean(CipherPassword, true))
     private val _masterKey = MutableLiveData(metaData.masterKey)
-    private val _certificate = MutableLiveData("Выберите сертификат")
+    private val _password = MutableLiveData(sp.getString(MasterKey, "")!!)
 
     val password1: MutableLiveData<String> = _password1
     val password2: MutableLiveData<String> = _password2
+    val password: MutableLiveData<String> = _password
     val fileName: MutableLiveData<String> = _fileName
     val encrypt: LiveData<Boolean> = _encrypt
     val cipherPassword: LiveData<Boolean> = _cipherPassword
@@ -53,7 +52,6 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
     val visibilityPassword1: LiveData<Boolean> = MutableLiveData(!_masterKey.value!!)
     val visibilityPassword2: LiveData<Boolean> =
         MutableLiveData(!_masterKey.value!! && _secondPassword.value!!)
-    val certificate: LiveData<String> = _certificate
 
     private val passwordFlag = sp.getBoolean(PasswordFlag, true)
     private val saltFlag = sp.getBoolean(Salt, false)
@@ -76,11 +74,10 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
                 _password2.value,
                 _secondPassword.value!!,
                 saltFlag,
-                _certificate.value,
                 hashAlgorithm,
                 hashCount,
                 view.context,
-                password
+                _password.value!!
             )
             encryptProgressBar(true)
             enc.encrypt()
@@ -88,6 +85,7 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
         } catch (e: MyException) {
             toast.suspendShow(view.context, e.message!!)
         } catch (e: Exception) {
+            println(e.message!!)
             Log.d(LOG_TAG, e.message!!)
             Log.d(LOG_TAG, e.localizedMessage)
         } finally {
@@ -95,29 +93,18 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun chooseCertificate(view: View) {
-        try {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
-            builder.setTitle("Выберите сертификат для шифрования пароля")
-            val keyStore = KeyStoreClass(password)
-            val names = keyStore.certificateNames()
-            if (names.isEmpty()) throw MyException("Импортируйте сертификат или создайте свои!")
-            builder.setItems(names) { _, which -> _certificate.value = names[which] }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        } catch (e: MyException) {
-            toast.show(view.context, e.message!!)
-        }
-    }
-
     private suspend fun encryptProgressBar(flag: Boolean) = withContext(Dispatchers.Main) {
         _encrypt.value = flag
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun clear() {
+        onCleared()
     }
 
     companion object {
         private val job = SupervisorJob()
         private val file = FileClass()
         private val toast = ToastShow()
-        private const val password = "12345678"
     }
 }

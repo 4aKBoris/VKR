@@ -1,6 +1,5 @@
 package mpei.vkr.ui.settings
 
-import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -12,6 +11,7 @@ import mpei.vkr.ui.settings.items.others.SettingsOthersFragment
 import mpei.vkr.ui.settings.items.signature.SettingsSignatureFragment
 
 class SettingsAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int = 6
 
     override fun createFragment(position: Int): Fragment {

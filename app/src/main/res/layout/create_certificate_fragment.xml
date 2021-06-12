@@ -152,7 +152,7 @@
                     android:layout_marginEnd="@dimen/choice_certificate_horizontal"
                     android:layout_marginBottom="50dp"
                     android:progress="@{viewmodel.progress}"
-                    android:max="12"
+                    android:max="13"
                     android:min="0"
                     android:theme="@style/CustomProgressBarHorizontal"
                     android:progressDrawable="@drawable/progress_bar"

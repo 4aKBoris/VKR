@@ -5,14 +5,15 @@ package mpei.vkr.Crypto
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.util.Log
 import mpei.vkr.Constants.Crypto
+import mpei.vkr.Constants.LOG_TAG
 import mpei.vkr.Constants.NotUse
 import mpei.vkr.Constants.pathToClearFiles
 import mpei.vkr.Exception.MyException
 import mpei.vkr.Others.FileClass
 import mpei.vkr.Others.KeyStoreClass
 import org.bouncycastle.util.encoders.Base64
-import kotlin.jvm.Throws
 
 class Decrypt(
     private val metaData: MetaData,
@@ -28,9 +29,11 @@ class Decrypt(
     private val sp: SharedPreferences
 
     init {
+        Log.d(LOG_TAG, "1")
         keyStore = KeyStoreClass(password)
         secretKeyClass = SecretKey(metaData.cipherAlgorithm, metaData.keySize)
         sp = PreferenceManager.getDefaultSharedPreferences(context)
+        Log.d(LOG_TAG, password)
     }
 
     @Throws(MyException::class)
@@ -43,13 +46,12 @@ class Decrypt(
             val verify = sign.verify(metaData.cipherText, cert, metaData.signData!!)
             if (!verify) throw MyException("Цифровая подпись не прошла проверку!")
         }
-        val secretKey: javax.crypto.SecretKey
-        secretKey = if (metaData.cipherPassword != null) secretKeyClass.getSecretKeyDecrypt(metaData.cipherPassword!!)
+        val secretKey = if (metaData.cipherPassword != null) secretKeyClass.getSecretKeyDecrypt(metaData.cipherPassword!!, keyStore)
         else {
             if (metaData.masterKey) {
                 val key = sp.getString(metaData.fileName!!, "")!!
                 val keyByteArray = Base64.decode(key)
-                secretKeyClass.getSecretKeyDecrypt(keyByteArray)
+                secretKeyClass.getSecretKeyDecrypt(keyByteArray, keyStore)
             } else {
                 secretKeyClass.getSecretKeyDecrypt(
                     password1!!,
@@ -61,10 +63,15 @@ class Decrypt(
         }
         val cipher = CipherFile(metaData.cipherText, metaData.cipherAlgorithm, metaData.cipherCount, secretKey)
         metaData.clearText = cipher.decrypt(metaData.iv)
+        val k = metaData.clearText.copyOf(8)
+        if (!k.contentEquals(byte)) throw MyException("Введён неверный пароль!")
+        metaData.clearText = metaData.clearText.copyOfRange(8, metaData.clearText.size)
         file.writeFile("$pathToClearFiles${fileName.removeSuffix(Crypto)}", metaData.clearText)
+        keyStore.saveKeyStore()
     }
 
     companion object {
+        private val byte = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8)
         private val file = FileClass()
     }
 }

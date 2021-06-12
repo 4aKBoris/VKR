@@ -3,17 +3,18 @@
 package mpei.vkr.Crypto
 
 import android.content.Context
-import kotlin.random.Random
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.util.Log
-import mpei.vkr.Constants.*
+import mpei.vkr.Constants.Certificate
+import mpei.vkr.Constants.Crypto
+import mpei.vkr.Constants.NotUse
+import mpei.vkr.Constants.pathToCipherFiles
 import mpei.vkr.Exception.MyException
 import mpei.vkr.Others.FileClass
 import mpei.vkr.Others.KeyStoreClass
 import mpei.vkr.Others.Password
 import org.bouncycastle.util.encoders.Base64
-import kotlin.jvm.Throws
+import kotlin.random.Random
 
 class Encrypt(
     private val metaData: MetaData,
@@ -25,7 +26,6 @@ class Encrypt(
     private val password2: String?,
     private val secondPassword: Boolean,
     private val saltFlag: Boolean,
-    private val certificateAlias: String?,
     private val hashAlgorithm: String,
     private val hashCount: Int,
     context: Context,
@@ -46,6 +46,7 @@ class Encrypt(
         val secretKey: javax.crypto.SecretKey
         if (fileName.isNullOrEmpty()) throw MyException("Выберите файл!")
         metaData.clearText = file.readFile(fileName)
+        metaData.clearText = byte.plus(metaData.clearText)
         if (useMasterKey) {
             secretKey = secretKeyGenerator.generateSecretKeyEncrypt()
             if (!cipherPasswordFlag) metaData.fileName = cipherPassword(secretKey)
@@ -71,18 +72,13 @@ class Encrypt(
         val cipherPair = cipher.encrypt()
         metaData.cipherText = cipherPair.first
         metaData.iv = cipherPair.second
-        Log.d(LOG_TAG, metaData.signatureAlgorithm)
         if (metaData.signatureAlgorithm != NotUse) {
-            Log.d(LOG_TAG, metaData.signatureAlgorithm)
             val sign = SignatureFile(metaData.signatureAlgorithm)
-            val pair = sign.getSignature(metaData.clearText, "12345678")
+            val pair = sign.getSignature(metaData.cipherText, keyStore)
             metaData.signData = pair.first
             metaData.certificate = pair.second
         }
-        if (cipherPasswordFlag) {
-            if (certificateAlias.isNullOrBlank() || certificateAlias == "Выберите сертификат") throw MyException("Выберите сертифкат для шифрования пароля!")
-            metaData.cipherPassword = cipherPassword(secretKey, certificateAlias)
-        }
+        if (cipherPasswordFlag) metaData.cipherPassword = cipherPasswordToFile(secretKey)
         file.writeFile(
             "$pathToCipherFiles${file.fileName(fileName)}$Crypto",
             metaData.convertToByteArray()
@@ -90,7 +86,7 @@ class Encrypt(
     }
 
     private fun cipherPassword(secretKey: javax.crypto.SecretKey): String {
-        val certificate = keyStore.getCertificate(Certificate + SHA256withRSA)
+        val certificate = keyStore.getCertificate(Certificate + mpei.vkr.Constants.SecretKey)
         val cipherKey = secretKeyGenerator.getCipherSecretKey(secretKey, certificate)
         val cipherKeyString = Base64.toBase64String(cipherKey)
         val alias = Base64.toBase64String(rnd.nextBytes(64))
@@ -101,8 +97,8 @@ class Encrypt(
         return alias
     }
 
-    private fun cipherPassword(secretKey: javax.crypto.SecretKey, alias: String): ByteArray {
-        val certificate = keyStore.getCertificate(alias)
+    private fun cipherPasswordToFile(secretKey: javax.crypto.SecretKey): ByteArray {
+        val certificate = keyStore.getCertificate(Certificate + mpei.vkr.Constants.SecretKey)
         return secretKeyGenerator.getCipherSecretKey(secretKey, certificate)
     }
 
@@ -113,6 +109,7 @@ class Encrypt(
     }
 
     companion object {
+        private val byte = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8)
         private val rnd = Random
         private val file = FileClass()
         private val correct = Password()

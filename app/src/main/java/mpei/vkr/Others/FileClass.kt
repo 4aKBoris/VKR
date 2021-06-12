@@ -18,7 +18,7 @@ class FileClass {
     suspend fun writeFile(fileName: String, arr: ByteArray) = withContext(Dispatchers.IO) {
         val bw = BufferedOutputStream(FileOutputStream(File(fileName)))
         bw.write(arr)
-        bw.flush()
+        //bw.flush()
         bw.close()
     }
 

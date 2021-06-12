@@ -5,9 +5,9 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.security.KeyStore
+import java.security.PrivateKey
 import java.security.cert.Certificate
 import java.security.cert.CertificateFactory
-import javax.crypto.SecretKey
 
 
 class KeyStoreClass(password: String) {
@@ -25,17 +25,18 @@ class KeyStoreClass(password: String) {
         it.contains(Certificate)
     }.map { it.removePrefix(Certificate) }.toTypedArray()
 
-    fun certificateNames() = keyStore.aliases().toList().filterNot { it.contains(PrivateKey) }.toTypedArray()
+    fun certificateNames() =
+        keyStore.aliases().toList().filterNot { it.contains(PrivateKey) }.toTypedArray()
 
-    fun getCertificate(alias: String) = keyStore.getCertificate(alias)!!
+    fun getCertificate(alias: String): Certificate = keyStore.getCertificate(alias)!!
 
     fun getPrivateKeyEntry(alias: String): KeyStore.PrivateKeyEntry {
         val entryPassword: KeyStore.ProtectionParameter =
             KeyStore.PasswordProtection(alias.toCharArray())
-        return keyStore.getEntry(PrivateKey + alias, entryPassword) as KeyStore.PrivateKeyEntry
+        return keyStore.getEntry(alias, entryPassword) as KeyStore.PrivateKeyEntry
     }
 
-    fun getPrivateKey() = getPrivateKeyEntry(SHA256withRSA).privateKey!!
+    fun getPrivateKey() = getPrivateKeyEntry(PrivateKey + SecretKey).privateKey!!
 
     fun saveCertificate(name: String, certificate: Certificate) {
         val certificateOutputStream = FileOutputStream(pathToCertificate + name)
@@ -55,8 +56,20 @@ class KeyStoreClass(password: String) {
         val certificateFactory = CertificateFactory.getInstance(X509)
         val certificateInputStream = FileInputStream(pathCertificate)
         val certificate = certificateFactory.generateCertificate(certificateInputStream)
-        println(certificate.type)
         keyStore.setCertificateEntry(File(pathCertificate).name, certificate)
         saveKeyStore()
+    }
+
+    fun setPrivateKey(privateKey: PrivateKey, alias: String, certificate: Certificate) {
+        keyStore.setKeyEntry(
+            alias,
+            privateKey,
+            alias.toCharArray(),
+            arrayOf(certificate)
+        )
+    }
+
+    fun setCertificate(certificate: Certificate, alias: String) {
+        keyStore.setCertificateEntry(alias, certificate)
     }
 }

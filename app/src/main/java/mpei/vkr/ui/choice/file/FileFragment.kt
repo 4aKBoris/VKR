@@ -19,6 +19,8 @@ class FileFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_file_list, container, false)
 
+
+        PlaceholderContent.updateItems()
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
@@ -30,5 +32,4 @@ class FileFragment : Fragment() {
         }
         return view
     }
-
 }

@@ -76,11 +76,6 @@ class MyfileRecyclerViewAdapter(
             .setNegativeButton("Отмена", dialogClickListener).show()
     }
 
-    companion object {
-        private var i = 0
-    }
-
-
     inner class ViewHolder(binding: FragmentFileBinding) : RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val fileNameView: TextView = binding.fileName

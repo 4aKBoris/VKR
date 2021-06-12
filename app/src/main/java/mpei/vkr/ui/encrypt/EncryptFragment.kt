@@ -11,9 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.databinding.FragmentEncryptBinding
-
 
 class EncryptFragment : Fragment() {
 
@@ -24,7 +22,7 @@ class EncryptFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
