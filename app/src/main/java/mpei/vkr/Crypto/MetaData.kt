@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mpei.vkr.Constants.NotUse
 import mpei.vkr.Exception.MyException
-import mpei.vkr.Others.FileClass
 
 @JsonPropertyOrder(
     "cAlg",
@@ -119,6 +118,5 @@ class MetaData() {
     companion object {
         private val VKR = byteArrayOf(86, 75, 82)
         var mapper = ObjectMapper()
-        private val file = FileClass()
     }
 }
