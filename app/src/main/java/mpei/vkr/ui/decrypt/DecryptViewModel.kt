@@ -37,7 +37,13 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
     private val _signature = MutableLiveData(sp.getString(SignatureAlgorithm, SHA256withRSA)!!)
     private val _certificate = MutableLiveData("Выберите сертификат")
     private val _masterKey = MutableLiveData(sp.getString(MasterKey, "")!!)
+    private val _passwordVisibility = MutableLiveData(
+        sp.getBoolean(UseMasterKey, true) || sp.getBoolean(
+            CipherPassword, true
+        )
+    )
 
+    val passwordVisibility: LiveData<Boolean> = _passwordVisibility
     val password: MutableLiveData<String> = _password
     val fileName: MutableLiveData<String> = _fileName
     val masterKey: MutableLiveData<String> = _masterKey
@@ -49,7 +55,6 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
         } else ""
     }
     val useMasterKey: LiveData<Boolean> = _useMasterKey
-    val signature: LiveData<String> = _signature
     val certificate: LiveData<String> = _certificate
     val certificateVisibility: LiveData<Boolean> = Transformations.map(_signature) { it == NotUse }
 
@@ -57,7 +62,6 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
         get() = Dispatchers.Main + job + CoroutineExceptionHandler { _, e -> throw e }
 
     fun decryptFile(view: View) = launch(Dispatchers.Default) {
-        decryptProgressBar(true)
         try {
             val dec = Decrypt(
                 metaData,
@@ -67,6 +71,7 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
                 context,
                 _fileName.value
             )
+            decryptProgressBar(true)
             dec.decrypt()
             toast.suspendShow(view.context, "Файл расшифрован!")
         } catch (e: MyException) {
@@ -108,8 +113,7 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
         try {
             val m = MetaData(file.readFile(pathToCipherFiles + fileName))
             metaData = m.getMetaData()
-            _signature.value = metaData.signatureAlgorithm
-            _useMasterKey.value = metaData.masterKey
+            _passwordVisibility.value = metaData.masterKey || (metaData.cipherPassword != null)
         } catch (e: MyException) {
             toast.suspendShow(context, e.message!!)
         } catch (e: Exception) {

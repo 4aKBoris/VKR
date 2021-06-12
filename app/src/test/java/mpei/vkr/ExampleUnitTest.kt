@@ -1,9 +1,8 @@
 package mpei.vkr
 
-import org.json.JSONObject
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
+import kotlin.random.Random
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -19,10 +18,25 @@ class ExampleUnitTest {
 
     @Test
     fun test1() {
-        val str = "0100"
-        val k = str.toByteArray(Charsets.UTF_8)
-        val s = k.toString(Charsets.UTF_8)
-        val t = s.toInt()
-        println(t)
+       val byte = rnd.nextBytes(1000000)
+        val k = byte.drop(25)
+        k.toByteArray()
+    }
+
+    @Test
+    fun test2() {
+        val byte = rnd.nextBytes(1000000)
+        val k = byte.copyOfRange(25, byte.size)
+    }
+
+    @Test
+    fun test3() {
+        val byte = rnd.nextBytes(10)
+        val k = byte.copyOfRange(5, 10)
+        //println(k.joinToString())
+    }
+
+    companion object {
+        private val rnd = Random
     }
 }

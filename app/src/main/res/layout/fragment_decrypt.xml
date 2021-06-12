@@ -33,7 +33,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:text="@={viewmodel.password}"
-                android:visibility="@{viewmodel.useMasterKey ? View.GONE: View.VISIBLE}"
+                android:visibility="@{viewmodel.passwordVisibility ? View.GONE: View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

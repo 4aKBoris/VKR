@@ -29,7 +29,8 @@ class Encrypt(
     private val hashAlgorithm: String,
     private val hashCount: Int,
     context: Context,
-    password: String
+    password: String,
+    private val deleteFile: Boolean
 ) {
     private val keyStore: KeyStoreClass
     private val sp: SharedPreferences
@@ -83,6 +84,7 @@ class Encrypt(
             "$pathToCipherFiles${file.fileName(fileName)}$Crypto",
             metaData.convertToByteArray()
         )
+        file.deleteFile(fileName)
     }
 
     private fun cipherPassword(secretKey: javax.crypto.SecretKey): String {

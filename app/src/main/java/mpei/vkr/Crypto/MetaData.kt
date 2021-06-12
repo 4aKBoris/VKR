@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import mpei.vkr.Constants.NotUse
 import mpei.vkr.Exception.MyException
+import mpei.vkr.Others.FileClass
 
 @JsonPropertyOrder(
     "cAlg",
@@ -79,25 +82,24 @@ class MetaData() {
     }
 
     @JsonIgnore
-    fun getMetaData(): MetaData {
-        val name = cipherFile!!.take(3)
-        if (name != VKR) throw MyException("Данный фал не был зашифрован в данном приложении, и расшифровать его не получится!")
-        var array = cipherFile!!.drop(3)
-        val size = array.take(6).toByteArray()
-        val jsonSize = size.toString(Charsets.UTF_8).toInt()
-        array = array.drop(6)
-        val json = array.take(jsonSize).toByteArray()
-        val jsonClass = mapper.readValue(json, MetaData::class.java)
-        jsonClass.cipherText = array.drop(jsonSize).toByteArray()
-        return jsonClass
+    @kotlin.jvm.Throws(MyException::class)
+    suspend fun getMetaData(): MetaData = withContext(Dispatchers.Default) {
+        val nameSize = cipherFile!!.copyOf(7)
+        val name = nameSize.copyOf(3)
+        val size = nameSize.copyOfRange(3, 7).toString(Charsets.UTF_8).toInt()
+        if (!name.contentEquals(VKR)) throw MyException("Данный фал не был зашифрован в данном приложении, и расшифровать его не получится!")
+        val json = cipherFile!!.copyOfRange(7, 7 + size)
+        val jsonObject = mapper.readValue(json, MetaData::class.java)
+        jsonObject.cipherText = cipherFile!!.copyOfRange(7 + size, cipherFile!!.size)
+        return@withContext jsonObject
     }
 
     @JsonIgnore
     fun convertToByteArray(): ByteArray {
         val json = mapper.writeValueAsBytes(this)
         var length = json.size.toString()
-        while (length.length < 6) length = "0$length"
-        return VKR.toByteArray().plus(length.toByteArray(Charsets.UTF_8)).plus(json).plus(cipherText)
+        while (length.length < 4) length = "0$length"
+        return VKR.plus(length.toByteArray(Charsets.UTF_8)).plus(json).plus(cipherText)
     }
 
     constructor(
@@ -115,7 +117,8 @@ class MetaData() {
     }
 
     companion object {
-        private val VKR = listOf<Byte>(86, 75, 82)
+        private val VKR = byteArrayOf(86, 75, 82)
         var mapper = ObjectMapper()
+        private val file = FileClass()
     }
 }

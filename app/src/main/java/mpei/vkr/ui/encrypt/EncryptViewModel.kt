@@ -39,11 +39,9 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
     private val _secondPassword = MutableLiveData(sp.getBoolean(SecondPassword, true))
     private val _cipherPassword = MutableLiveData(sp.getBoolean(CipherPassword, true))
     private val _masterKey = MutableLiveData(metaData.masterKey)
-    private val _password = MutableLiveData(sp.getString(MasterKey, "")!!)
 
     val password1: MutableLiveData<String> = _password1
     val password2: MutableLiveData<String> = _password2
-    val password: MutableLiveData<String> = _password
     val fileName: MutableLiveData<String> = _fileName
     val encrypt: LiveData<Boolean> = _encrypt
     val cipherPassword: LiveData<Boolean> = _cipherPassword
@@ -57,6 +55,8 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
     private val saltFlag = sp.getBoolean(Salt, false)
     private val hashAlgorithm = sp.getString(HashAlgorithm, SHA256)!!
     private val hashCount = sp.getInt(HashCount, 1)
+    private val password = sp.getString(MasterKey, "")!!
+    private val deleteFile = sp.getBoolean(DeleteFile, false)
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job + CoroutineExceptionHandler { _, e -> throw e }
@@ -77,7 +77,8 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
                 hashAlgorithm,
                 hashCount,
                 view.context,
-                _password.value!!
+                password,
+                deleteFile
             )
             encryptProgressBar(true)
             enc.encrypt()

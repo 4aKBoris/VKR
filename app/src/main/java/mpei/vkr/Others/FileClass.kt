@@ -10,7 +10,6 @@ import mpei.vkr.Exception.MyException
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
-import kotlin.jvm.Throws
 import kotlin.math.pow
 
 class FileClass {
@@ -18,7 +17,6 @@ class FileClass {
     suspend fun writeFile(fileName: String, arr: ByteArray) = withContext(Dispatchers.IO) {
         val bw = BufferedOutputStream(FileOutputStream(File(fileName)))
         bw.write(arr)
-        //bw.flush()
         bw.close()
     }
 
@@ -30,6 +28,24 @@ class FileClass {
             StandardCopyOption.REPLACE_EXISTING
         )
     }!!
+
+    suspend fun readFileFirstBytes(fileName: String, n: Int) = withContext(Dispatchers.IO) {
+        val br = BufferedInputStream(FileInputStream(File(fileName)))
+        val arr = ByteArray(n)
+        br.read(arr, 0, n)
+        arr
+    }
+
+    suspend fun readFileLastBytes(fileName: String, n: Int) = withContext(Dispatchers.IO) {
+        val arr = BufferedInputStream(FileInputStream(File(fileName))).readBytes()
+        arr.copyOfRange(n, arr.size)
+    }
+
+    @kotlin.jvm.Throws(MyException::class)
+    suspend fun deleteFile(fileName: String) = withContext(Dispatchers.IO) {
+        val flag = File(fileName).delete()
+        if (!flag) throw MyException("Файл не был удалён!")
+    }
 
     @Throws(MyException::class)
     suspend fun readFile(fileName: String): ByteArray = withContext(Dispatchers.IO) {
