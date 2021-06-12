@@ -11,8 +11,11 @@ import android.os.StatFs
 import android.preference.PreferenceManager.getDefaultSharedPreferences
 import android.util.Log
 import android.view.Menu
+import android.view.View
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,6 +26,7 @@ import com.google.android.material.navigation.NavigationView
 import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.Constants.MasterKey
 import mpei.vkr.Constants.PATH_KEY_STORE
+import mpei.vkr.Constants.UseMasterKey
 import mpei.vkr.Constants.path
 import mpei.vkr.Crypto.MasterKey
 import mpei.vkr.Others.Permissions
@@ -66,6 +70,17 @@ class MainActivity : AppCompatActivity() {
         password = intent.extras!!.getString(ARG_MASTER_KEY)!!
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        val switch =
+            MenuItemCompat.getActionView(binding.navView.menu.findItem(R.id.app_bar_switch))
+                .findViewById<View>(
+                    R.id.switch_master_key
+                ) as Switch
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().apply {
+                putBoolean(UseMasterKey, isChecked)
+                apply()
+            }
+        }
 
         val p = Permissions()
         p.requestMultiplePermissions(this, PERMISSION_REQUEST_CODE)
@@ -135,4 +150,5 @@ class MainActivity : AppCompatActivity() {
             keyStore.store(keyStoreOutputStream, password)
         }
     }
+
 }

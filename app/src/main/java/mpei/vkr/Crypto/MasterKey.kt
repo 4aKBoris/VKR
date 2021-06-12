@@ -32,7 +32,7 @@ class MasterKey(password: String) {
         return masterKey.drop(8).toByteArray()
     }
 
-    fun getMasterKey() = Base64.toBase64String(decryptSecretKey())
+    fun getMasterKey(): String = Base64.toBase64String(decryptSecretKey())
 
     suspend fun changeMasterKey(password: String) {
         val key = decryptSecretKey()
@@ -50,7 +50,7 @@ class MasterKey(password: String) {
         val arr = file.readFile(pathMasterKey)
         val cipher = CipherFile(arr, RC4, _100, secretKey)
         val checkArray = cipher.decrypt(null).take(8).toByteArray()
-        return@withContext checkArray.contentEquals(checkArray)
+        return@withContext checkArray.contentEquals(check)
     }
 
     companion object {

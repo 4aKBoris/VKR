@@ -34,5 +34,11 @@
             android:checkable="false"
             android:enabled="true"
             android:title="" />
+        <item
+            android:id="@+id/app_bar_switch"
+            android:title="@string/master_key"
+            app:actionLayout="@layout/switch_item"
+            app:showAsAction="always" />
+
     </group>
 </menu>

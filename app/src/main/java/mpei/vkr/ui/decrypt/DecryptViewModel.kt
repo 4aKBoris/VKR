@@ -36,7 +36,7 @@ class DecryptViewModel(application: Application) : AndroidViewModel(application)
     private val _useMasterKey = MutableLiveData(sp.getBoolean(UseMasterKey, true))
     private val _signature = MutableLiveData(sp.getString(SignatureAlgorithm, SHA256withRSA)!!)
     private val _certificate = MutableLiveData("Выберите сертификат")
-    private val _masterKey = MutableLiveData(sp.getString(mpei.vkr.Constants.MasterKey, "")!!)
+    private val _masterKey = MutableLiveData(sp.getString(MasterKey, "")!!)
 
     val password: MutableLiveData<String> = _password
     val fileName: MutableLiveData<String> = _fileName

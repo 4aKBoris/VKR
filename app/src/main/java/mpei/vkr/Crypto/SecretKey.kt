@@ -42,7 +42,7 @@ class SecretKey(private val cipherAlgorithm: String, private val keySize: Int): 
         private const val bit = 8
 
         private fun messageDigest(password: ByteArray, hashAlgorithm: String, hashCount: Int, salt: ByteArray?): ByteArray {
-            val digest = MessageDigest.getInstance(hashAlgorithm)
+            val digest = MessageDigest.getInstance(hashAlgorithm, BouncyCastleProvider())
             for (i in 1..hashCount) {
                 digest.update(password)
                 if (salt != null) digest.update(salt)
