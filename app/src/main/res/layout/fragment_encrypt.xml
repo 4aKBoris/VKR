@@ -93,6 +93,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonDecrypt" />
 
+            <TextView
+                android:id="@+id/textViewChooseCertificate"
+                style="@style/SettingsTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/decrypt_horizontal"
+                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_marginEnd="@dimen/decrypt_horizontal"
+                android:visibility='@{viewmodel.cipherPassword ? View.GONE: View.VISIBLE}'
+                android:text="@{viewmodel.certificate}"
+                android:onClick="@{(view) -> viewmodel.chooseCertificate(view)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewFileName" />
+
             <ProgressBar
                 android:id="@+id/progressBarDecrypt"
                 android:layout_width="match_parent"
@@ -102,7 +117,7 @@
                 android:visibility="@{viewmodel.encrypt ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewFileName"
+                app:layout_constraintTop_toBottomOf="@id/textViewChooseCertificate"
                 tools:foregroundTint="#FF0000" />
 
             <TextView

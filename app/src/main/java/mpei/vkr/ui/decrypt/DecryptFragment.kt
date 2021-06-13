@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import mpei.vkr.Constants.FileName
 import mpei.vkr.databinding.FragmentDecryptBinding
 
 class DecryptFragment : Fragment() {
@@ -16,7 +17,7 @@ class DecryptFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            fileName = it.getString("fileName")
+            fileName = it.getString(FileName)
         }
     }
 

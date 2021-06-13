@@ -30,7 +30,8 @@ class Encrypt(
     private val hashCount: Int,
     context: Context,
     password: String,
-    private val deleteFile: Boolean
+    private val deleteFile: Boolean,
+    private val certificateName: String?
 ) {
     private val keyStore: KeyStoreClass
     private val sp: SharedPreferences
@@ -79,12 +80,14 @@ class Encrypt(
             metaData.signData = pair.first
             metaData.certificate = pair.second
         }
-        if (cipherPasswordFlag) metaData.cipherPassword = cipherPasswordToFile(secretKey)
+        if (cipherPasswordFlag)
+            if (certificateName.isNullOrEmpty()) throw MyException("Выберите сертификат для шифрования пароля!")
+            else metaData.cipherPassword = cipherPasswordToFile(secretKey, certificateName)
         file.writeFile(
             "$pathToCipherFiles${file.fileName(fileName)}$Crypto",
             metaData.convertToByteArray()
         )
-        file.deleteFile(fileName)
+        if (deleteFile) file.deleteFile(fileName)
     }
 
     private fun cipherPassword(secretKey: javax.crypto.SecretKey): String {
@@ -99,8 +102,8 @@ class Encrypt(
         return alias
     }
 
-    private fun cipherPasswordToFile(secretKey: javax.crypto.SecretKey): ByteArray {
-        val certificate = keyStore.getCertificate(Certificate + mpei.vkr.Constants.SecretKey)
+    private fun cipherPasswordToFile(secretKey: javax.crypto.SecretKey, alias: String): ByteArray {
+        val certificate = keyStore.getCertificate(alias)
         return secretKeyGenerator.getCipherSecretKey(secretKey, certificate)
     }
 

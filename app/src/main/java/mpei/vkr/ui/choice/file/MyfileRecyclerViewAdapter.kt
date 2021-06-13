@@ -6,12 +6,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import mpei.vkr.Constants.FileName
+import mpei.vkr.Constants.LOG_TAG
 import mpei.vkr.R
 import mpei.vkr.databinding.FragmentFileBinding
 import mpei.vkr.ui.choice.file.placeholder.PlaceholderContent
@@ -37,7 +41,9 @@ class MyfileRecyclerViewAdapter(
         val item = values[position]
         holder.idView.text = item.id
         holder.fileNameView.text = item.fileName
-        holder.fileTypeView.text = item.type
+        if (item.type in mapTypeFile.keys) holder.fileTypeView.setImageResource(mapTypeFile[item.type]!!)
+        else holder.fileTypeView.setImageResource(mapTypeFile["file"]!!)
+        Log.d(LOG_TAG, item.type)
         holder.fileSizeView.text = item.fileSize
     }
 
@@ -51,7 +57,7 @@ class MyfileRecyclerViewAdapter(
     }
 
     private fun action(id: Int, fileName: String) {
-        findNavController(fragment).navigate(id, Bundle().apply { putString("fileName", fileName) })
+        findNavController(fragment).navigate(id, Bundle().apply { putString(FileName, fileName) })
     }
 
     private fun choiceFile(context: Context, fileName: String) {
@@ -64,7 +70,7 @@ class MyfileRecyclerViewAdapter(
                     )
                     DialogInterface.BUTTON_NEGATIVE -> dialog.cancel()
                     DialogInterface.BUTTON_NEUTRAL -> action(
-                        R.id.action_fileFragment_to_fileInfoFragment,
+                        R.id.action_fileFragment_to_infoOfFileFragment,
                         fileName
                     )
                 }
@@ -79,7 +85,7 @@ class MyfileRecyclerViewAdapter(
     inner class ViewHolder(binding: FragmentFileBinding) : RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val fileNameView: TextView = binding.fileName
-        val fileTypeView: TextView = binding.fileType
+        val fileTypeView: ImageView = binding.fileType
         val fileSizeView: TextView = binding.fileSize
 
         override fun toString(): String {
@@ -87,4 +93,36 @@ class MyfileRecyclerViewAdapter(
         }
     }
 
+    companion object {
+        private val mapTypeFile = mapOf(
+            Pair("avi", R.drawable.avi),
+            Pair("bin", R.drawable.bin),
+            Pair("css", R.drawable.css),
+            Pair("csv", R.drawable.csv),
+            Pair("dbf", R.drawable.dbf),
+            Pair("doc", R.drawable.doc),
+            Pair("exe", R.drawable.exe),
+            Pair("file", R.drawable.file),
+            Pair("gif", R.drawable.gif),
+            Pair("ico", R.drawable.ico),
+            Pair("jar", R.drawable.jar),
+            Pair("jpg", R.drawable.jpg),
+            Pair("js", R.drawable.js),
+            Pair("mkv", R.drawable.mkv),
+            Pair("mov", R.drawable.mov),
+            Pair("mp3", R.drawable.mp3),
+            Pair("mp4", R.drawable.mp4),
+            Pair("pdf", R.drawable.pdf),
+            Pair("png", R.drawable.png),
+            Pair("ppt", R.drawable.ppt),
+            Pair("psd", R.drawable.psd),
+            Pair("rtf", R.drawable.rtf),
+            Pair("txt", R.drawable.txt),
+            Pair("waw", R.drawable.waw),
+            Pair("wmv", R.drawable.wmv),
+            Pair("xml", R.drawable.xml),
+            Pair("xls", R.drawable.xls),
+            Pair("zip", R.drawable.zip)
+        )
+    }
 }

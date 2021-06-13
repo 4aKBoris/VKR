@@ -27,6 +27,7 @@ internal const val pathToClearFiles = "/storage/emulated/0/VKR/ClearFiles/"
 internal const val CountHours = "CountHours"
 internal const val CountTrying = "CountTrying"
 internal const val MasterKey = "MasterKey"
+internal const val FileName = "FileName"
 
 internal const val useLittleLetter = "useLittleLetter"
 internal const val useBigLetter = "useBigLetter"

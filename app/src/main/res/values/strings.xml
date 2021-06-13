@@ -72,4 +72,6 @@
     <string name="_72">72</string>
     <string name="count_trying">Количество попыток ввода мастер ключа</string>
     <string name="_10">10</string>
+    <string name="work_theme">Тема: Разработка приложения для криптографической защиты файлов на устройствах под управлением операционной системы Android</string>
+    <string name="vkr">Выпускная квалификационная работа</string>
 </resources>

@@ -21,7 +21,7 @@
             android:title="@string/decrypt_files" />
         <item
             android:id="@+id/nav_certificate"
-            android:icon="@drawable/ic_settings"
+            android:icon="@drawable/certificate"
             android:title="@string/certificate" />
         <item
             android:id="@+id/nav_settings"
@@ -33,9 +33,11 @@
             android:id="@+id/freeMemory"
             android:checkable="false"
             android:enabled="true"
+            android:icon="@drawable/ic_storage"
             android:title="" />
         <item
             android:id="@+id/app_bar_switch"
+            android:icon="@drawable/ic_master_key"
             android:title="@string/master_key"
             app:actionLayout="@layout/switch_item"
             app:showAsAction="always" />
