@@ -81,7 +81,7 @@ class Encrypt(
             metaData.certificate = pair.second
         }
         if (cipherPasswordFlag)
-            if (certificateName.isNullOrEmpty()) throw MyException("Выберите сертификат для шифрования пароля!")
+            if (certificateName.isNullOrEmpty() || certificateName == "Выберите сертификат") throw MyException("Выберите сертификат для шифрования пароля!")
             else metaData.cipherPassword = cipherPasswordToFile(secretKey, certificateName)
         file.writeFile(
             "$pathToCipherFiles${file.fileName(fileName)}$Crypto",

@@ -117,8 +117,7 @@
                 android:visibility="@{viewmodel.encrypt ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewChooseCertificate"
-                tools:foregroundTint="#FF0000" />
+                app:layout_constraintTop_toBottomOf="@id/textViewChooseCertificate" />
 
             <TextView
                 android:id="@+id/textViewFileSize"
