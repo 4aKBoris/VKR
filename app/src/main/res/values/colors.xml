@@ -13,4 +13,5 @@
     <color name="title_main">#EF6508</color>
     <color name="title_additional">#640EBA</color>
     <color name="check_box">#4F0ACC</color>
+    <color name="thumb">#0F2975</color>
 </resources>

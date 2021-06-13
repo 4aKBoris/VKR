@@ -1,85 +1,63 @@
 package mpei.vkr.Crypto
 
-import mpei.vkr.Constants.AES
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import mpei.vkr.Constants.RC4
+import mpei.vkr.Constants.SHA256
+import mpei.vkr.Constants.SHA512
 import mpei.vkr.Constants.pathMasterKey
-import mpei.vkr.Others.FileReadWrite
-import java.io.File
-import java.security.MessageDigest
+import mpei.vkr.Others.FileClass
+import org.bouncycastle.util.encoders.Base64
 import java.security.SecureRandom
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
-class MasterKey(private val password: String) {
+class MasterKey(password: String) {
 
-    fun IsCorrect(): Boolean {
-        val mas = Decrypt().copyOf(5)
-        var flag = true
-        for (i in 0..4) if (i + 1 != mas[i].toInt()) flag = false
-        return flag
+    private val secretKey: SecretKey
+
+    init {
+       secretKey = secretKeyRC4.generateSecretKeyEncrypt(password, SHA512, _100, false).first
     }
 
-    private fun getMasterPassword() = Decrypt().copyOfRange(5, 37)
-
-    private fun Decrypt(): ByteArray {
-        val cipher = Cipher()
-        val hash = Hash()
-        val file = FileReadWrite(pathMasterKey)
-        val arr = file.readFile()
-        iv = arr.copyOf(16)
-        cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
-        return cipher.doFinal(arr.copyOfRange(16, arr.size))
+    suspend fun encryptSecretKey() = withContext(Dispatchers.Default) {
+        val masterKey = secureRandom.generateSeed(64)
+        val cipher = CipherFile(check.plus(masterKey), RC4, _100, secretKey)
+        file.writeFile(pathMasterKey, cipher.encrypt().first)
     }
 
-    fun CipherSecretKey() {
-        val cipher = Cipher()
-        val hash = Hash()
-        secureRandom.nextBytes(iv)
-        cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
-        val arr = cipher.doFinal(byteArrayOf(1, 2, 3, 4, 5).plus(generateSecretKey().encoded))
-        val file = FileReadWrite(pathMasterKey)
-        file.writeFile(iv.plus(arr))
+    private fun decryptSecretKey(): ByteArray {
+        val masterKeyByteArray = file.readFileNotSuspend(pathMasterKey)
+        val cipher = CipherFile(masterKeyByteArray, RC4, _100, secretKey)
+        val masterKey = cipher.decrypt(null)
+        return masterKey.drop(8).toByteArray()
     }
 
-    fun DecryptEncreptMasterKey(pass: String) {
-        val masterKey = getMasterPassword()
-        File(pathMasterKey).delete()
-        CipherSecretKey(masterKey, pass)
+    fun getMasterKey(): String = Base64.toBase64String(decryptSecretKey())
+
+    suspend fun changeMasterKey(password: String) {
+        val key = decryptSecretKey()
+        encryptSecretKey(key, password)
     }
 
-    private fun CipherSecretKey(secretKey: ByteArray, pass: String) {
-        val cipher = Cipher()
-        val hash = Hash(pass)
-        secureRandom.nextBytes(iv)
-        cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(hash,"AES"), IvParameterSpec(iv))
-        val arr = cipher.doFinal(byteArrayOf(1, 2, 3, 4, 5).plus(secretKey))
-        val file = FileReadWrite(pathMasterKey)
-        file.writeFile(iv.plus(arr))
+    private suspend fun encryptSecretKey(masterKey: ByteArray, password: String) = withContext(Dispatchers.Default) {
+        val sK = secretKeyRC4.generateSecretKeyEncrypt(password, SHA256, _100, false).first
+        val cipher = CipherFile(check.plus(masterKey), RC4, _100, sK)
+        file.writeFile(pathMasterKey, cipher.encrypt().first)
     }
 
-    private fun generateSecretKey(): SecretKey {
-        val keyGenerator = KeyGenerator.getInstance(AES)
-        val keyBitSize = 256
-        keyGenerator.init(keyBitSize, secureRandom)
-        return keyGenerator.generateKey()
-    }
-
-    private fun Cipher() = Cipher.getInstance("AES/CBC/PKCS5Padding")
-
-    private fun Hash(): ByteArray {
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        return messageDigest.digest(password.toByteArray(Charsets.UTF_8))
-    }
-
-    private fun Hash(key: String): ByteArray {
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        return messageDigest.digest(key.toByteArray(Charsets.UTF_8))
+    @Throws(Exception::class)
+    suspend fun isCorrect(): Boolean = withContext(Dispatchers.Default) {
+        val arr = file.readFile(pathMasterKey)
+        val cipher = CipherFile(arr, RC4, _100, secretKey)
+        val checkArray = cipher.decrypt(null).take(8).toByteArray()
+        return@withContext checkArray.contentEquals(check)
     }
 
     companion object {
         private val secureRandom = SecureRandom()
-        private var iv = ByteArray(16)
+        private val secretKeyRC4 = SecretKey("RC4", 64)
+        private val file = FileClass()
+        private const val _100 = 100
+        private val check = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8)
     }
 }

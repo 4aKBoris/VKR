@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="mpei.vkr.ui.settings.items.lockdown.LockdownViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        tools:context=".ui.settings.items.lockdown.LockdownFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/TextViewTitleLockdown"
+                style="@style/SettingsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/settings_lockdown_title"
+                android:text="@string/block_app"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/SettingsTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_lockdown_horizontal"
+                android:layout_marginTop="@dimen/settings_lockdown_vertical"
+                android:layout_marginEnd="@dimen/settings_lockdown_horizontal"
+                android:text="@string/length_block"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TextViewTitleLockdown" />
+
+            <SeekBar
+                android:id="@+id/seekBarHours"
+                style="@style/SeekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:min="1"
+                android:progress="@{viewmodel.hours}"
+                android:max="72"
+                android:layout_marginStart="@dimen/seek_bar_horizontal"
+                android:layout_marginTop="@dimen/settings_lockdown_vertical"
+                android:layout_marginEnd="@dimen/seek_bar_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView6"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/SeekBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_1"
+                app:layout_constraintStart_toStartOf="@id/seekBarHours"
+                app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+            <TextView
+                android:id="@+id/textView9"
+                style="@style/SeekBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/seek_bar_text"
+                android:text="@string/_72"
+                app:layout_constraintEnd_toEndOf="@+id/seekBarHours"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarHours" />
+
+            <TextView
+                android:id="@+id/textView11"
+                style="@style/SeekBarMainText"
+                android:text="@{String.valueOf(viewmodel.hours)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/textView9"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="wrap_content"
+                android:layout_height="1sp"
+                android:layout_marginTop="@dimen/settings_lockdown_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView7"
+                style="@style/Line"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                style="@style/SettingsTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_lockdown_horizontal"
+                android:layout_marginTop="@dimen/settings_lockdown_vertical"
+                android:layout_marginEnd="@dimen/settings_lockdown_horizontal"
+                android:text="@string/count_trying"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+            <SeekBar
+                android:id="@+id/seekBarCount"
+                style="@style/SeekBarDiscrete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/seek_bar_horizontal"
+                android:layout_marginTop="@dimen/settings_lockdown_vertical"
+                android:layout_marginEnd="@dimen/seek_bar_horizontal"
+                android:max="9"
+                android:progress="@{viewmodel.steps}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/textView13"
+                style="@style/SeekBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/seek_bar_text"
+                android:text="@string/_1"
+                app:layout_constraintStart_toStartOf="@+id/seekBarCount"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarCount" />
+
+            <TextView
+                android:id="@+id/textView14"
+                style="@style/SeekBarMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewmodel.count)}"
+                app:layout_constraintEnd_toStartOf="@+id/textView15"
+                app:layout_constraintStart_toEndOf="@+id/textView13"
+                app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+            <TextView
+                android:id="@+id/textView15"
+                style="@style/SeekBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_lockdown_vertical"
+                android:text="@string/_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/seekBarCount"
+                app:layout_constraintTop_toTopOf="@+id/textView14"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

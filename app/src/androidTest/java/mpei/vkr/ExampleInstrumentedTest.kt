@@ -2,18 +2,16 @@
 
 package mpei.vkr
 
-import android.os.Environment
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import mpei.vkr.Others.FileReadWrite
-import mpei.vkr.Others.Permissions
-
+import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import mpei.vkr.Constants.path
+import mpei.vkr.Others.FileClass
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import java.io.File
-import java.io.FileReader
+import kotlin.random.Random
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -31,7 +29,21 @@ class ExampleInstrumentedTest {
 
     @Test
     fun Test1() {
-        val k = Environment.getExternalStorageDirectory().absolutePath
-        println(k)
+        val file = FileClass()
+        GlobalScope.launch {
+            val byte = file.readFile(path + "Бабин - Лаборатория хакера.pdf")
+        }
+    }
+
+    @Test
+    fun Test2() {
+        val file = FileClass()
+        GlobalScope.launch {
+            val byte = file.readFileFirstBytes(path + "Бабин - Лаборатория хакера.pdf", 3000)
+        }
+    }
+
+    companion object {
+        private val rnd = Random
     }
 }

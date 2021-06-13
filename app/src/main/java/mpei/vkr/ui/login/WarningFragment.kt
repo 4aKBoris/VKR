@@ -20,7 +20,7 @@ class WarningFragment : Fragment() {
         return view
     }
 
-    fun Visible(warning: String) {
+    fun visible(warning: String) {
         textViewWarning.text = warning
     }
 

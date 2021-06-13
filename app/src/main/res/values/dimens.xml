@@ -3,10 +3,61 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_height">225dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="list_view">7sp</dimen>
-    <dimen name="settings_master_key_vertical">15sp</dimen>
+    <dimen name="text_edit_password_height">50sp</dimen>
+    <dimen name="image_size">50sp</dimen>
+
+    <!-- Настройки мастер ключа -->
+    <dimen name="settings_master_key_title">15sp</dimen>
+    <dimen name="settings_master_key_vertical">30sp</dimen>
     <dimen name="settings_master_key_horizontal">40sp</dimen>
+
+    <!-- Другие настройки -->
+    <dimen name="settings_other_settings_title">15sp</dimen>
+    <dimen name="settings_other_settings_horizontal">30sp</dimen>
+    <dimen name="settings_other_settings_vertical">30sp</dimen>
+
+    <!-- Настройки цифровой подписи -->
+    <dimen name="settings_signature_title">15sp</dimen>
+    <dimen name="settings_signature_horizontal">40sp</dimen>
+    <dimen name="settings_signature_vertical">30sp</dimen>
+
+    <!-- Настройки хэш-функции -->
+    <dimen name="settings_message_digest_title">15sp</dimen>
+    <dimen name="settings_message_digest_vertical">30sp</dimen>
+
+    <!-- Настройки функции шифрования -->
+    <dimen name="settings_cipher_title">15sp</dimen>
+    <dimen name="settings_cipher_vertical">30sp</dimen>
+    <dimen name="settings_cipher_horizontal">40sp</dimen>
+
+    <!-- Настройки блокировки приложения -->
+    <dimen name="settings_lockdown_title">15sp</dimen>
+    <dimen name="settings_lockdown_vertical">30sp</dimen>
+    <dimen name="settings_lockdown_horizontal">40sp</dimen>
+
+    <!-- Настройки SeekBar -->
+    <dimen name="seek_bar_text">5sp</dimen>
+    <dimen name="seek_bar_horizontal">20sp</dimen>
+
+    <!-- Encrypt Fragment -->
+    <dimen name="encrypt_vertical">30sp</dimen>
+    <dimen name="encrypt_horizontal">40sp</dimen>
+
+    <!-- Decrypt Fragment -->
+    <dimen name="decrypt_vertical">30sp</dimen>
+    <dimen name="decrypt_horizontal">40sp</dimen>
+
+    <!-- Login Fragment -->
+    <dimen name="login_vertical">30sp</dimen>
+    <dimen name="login_horizontal">40sp</dimen>
+    <dimen name="login_horizontal_2">20sp</dimen>
+
+    <dimen name="certificate_1">100sp</dimen>
+    <dimen name="certificate_2">50sp</dimen>
+    <dimen name="choice_certificate_vertical">30sp</dimen>
+    <dimen name="choice_certificate_horizontal">40sp</dimen>
 </resources>

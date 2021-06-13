@@ -15,7 +15,11 @@
         android:id="@+id/nav_encrypt"
         android:name="mpei.vkr.ui.encrypt.EncryptFragment"
         android:label="@string/encrypt_files"
-        tools:layout="@layout/fragment_encrypt" />
+        tools:layout="@layout/fragment_encrypt" >
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_decrypt"
@@ -28,36 +32,62 @@
         <argument
             android:name="fileName"
             app:argType="string" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="mpei.vkr.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/settings_fragment" >
-        <argument
-            android:name="MasterKey"
-            app:argType="string"
-            android:defaultValue="12345"/>
+        <action
+            android:id="@+id/action_nav_settings_to_nav_certificate"
+            app:destination="@id/nav_certificate" />
     </fragment>
     <fragment
         android:id="@+id/fileFragment"
         android:name="mpei.vkr.ui.choice.file.FileFragment"
-        android:label="fragment_file_list"
-        tools:layout="@layout/fragment_file_list" >
+        android:label="Выбор файла"
+        tools:layout="@layout/fragment_file_list">
         <action
             android:id="@+id/action_fileFragment_to_nav_decrypt"
             app:destination="@id/nav_decrypt" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
         <action
-            android:id="@+id/action_fileFragment_to_fileInfoFragment"
-            app:destination="@id/fileInfoFragment" />
+            android:id="@+id/action_fileFragment_to_infoOfFileFragment"
+            app:destination="@id/infoOfFileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/fileInfoFragment"
-        android:name="mpei.vkr.ui.choice.file.FileInfoFragment"
-        android:label="file_info_fragment"
-        tools:layout="@layout/file_info_fragment" >
+        android:id="@+id/nav_certificate"
+        android:name="mpei.vkr.ui.choice.certificate.CertificateFragment"
+        android:label="@string/certificate_work"
+        tools:layout="@layout/certificate_fragment" >
         <action
-            android:id="@+id/action_fileInfoFragment_to_fileFragment"
+            android:id="@+id/action_nav_certificate_to_createCertificateFragment"
+            app:destination="@id/createCertificateFragment" />
+        <argument
+            android:name="MASTER_KEY"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCertificateFragment"
+        android:name="mpei.vkr.ui.choice.certificate.CreateCertificateFragment"
+        android:label="Создание сертификатов"
+        tools:layout="@layout/create_certificate_fragment">
+        <action
+            android:id="@+id/action_createCertificateFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoOfFileFragment"
+        android:name="mpei.vkr.ui.choice.file.info.InfoOfFileFragment"
+        android:label="Информация о файле"
+        tools:layout="@layout/fragment_file_info_list">
+        <action
+            android:id="@+id/action_infoOfFileFragment_to_fileFragment"
             app:destination="@id/fileFragment" />
         <argument
             android:name="fileName"

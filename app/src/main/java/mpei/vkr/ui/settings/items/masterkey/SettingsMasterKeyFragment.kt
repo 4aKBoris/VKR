@@ -2,7 +2,6 @@
 
 package mpei.vkr.ui.settings.items.masterkey
 
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -13,12 +12,18 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import mpei.vkr.Constants.LENGTH
 import mpei.vkr.databinding.SettingsMasterKeyFragmentBinding
-import mpei.vkr.ui.settings.items.ModelFactory
 
 
-class SettingsMasterKeyFragment : Fragment() {
+class SettingsMasterKeyFragment() : Fragment() {
+
+    constructor(password: String) : this() {
+       this.password = password
+    }
+
+    private var password = ""
 
     private var _binding: SettingsMasterKeyFragmentBinding? = null
     private lateinit var viewModel: SettingsMasterKeyViewModel
@@ -30,12 +35,12 @@ class SettingsMasterKeyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = SettingsMasterKeyFragmentBinding.inflate(inflater, container, false)
-        val sp = PreferenceManager.getDefaultSharedPreferences(binding.view.context)
-        viewModel = ViewModelProviders.of(this, ModelFactory(sp))[SettingsMasterKeyViewModel::class.java]
+        val sp = PreferenceManager.getDefaultSharedPreferences(binding.root.context)
+        viewModel = ViewModelProvider(this).get(SettingsMasterKeyViewModel::class.java)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         binding.seekBarLength.min = 1
-
+        binding.seekBarLength.progress = sp.getString(LENGTH, "8")!!.toInt()
         binding.seekBarLength.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 viewModel.length.value = progress.toString()
@@ -44,17 +49,12 @@ class SettingsMasterKeyFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-
+        lifecycle.addObserver(viewModel)
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.saveSettings()
     }
 }

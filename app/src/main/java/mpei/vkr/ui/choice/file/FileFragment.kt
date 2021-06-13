@@ -13,13 +13,14 @@ import mpei.vkr.ui.choice.file.placeholder.PlaceholderContent
 
 class FileFragment : Fragment() {
 
-
     private var columnCount = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_file_list, container, false)
 
+
+        PlaceholderContent.updateItems()
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
@@ -31,5 +32,4 @@ class FileFragment : Fragment() {
         }
         return view
     }
-
 }
