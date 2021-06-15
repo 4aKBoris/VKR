@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import mpei.vkr.Constants.FileName
+import mpei.vkr.Others.Folder
 import mpei.vkr.databinding.FragmentDecryptBinding
 
 class DecryptFragment : Fragment() {
@@ -37,6 +38,7 @@ class DecryptFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = decryptViewModel
         if (fileName != null) decryptViewModel.fileName.value = fileName
+        Folder()
         return binding.root
     }
 

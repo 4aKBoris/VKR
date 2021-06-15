@@ -30,6 +30,7 @@ class KeyStoreClass(password: String) {
 
     fun getCertificate(alias: String): Certificate = keyStore.getCertificate(alias)!!
 
+    @Throws(Exception::class)
     fun getPrivateKeyEntry(alias: String): KeyStore.PrivateKeyEntry {
         val entryPassword: KeyStore.ProtectionParameter =
             KeyStore.PasswordProtection(alias.toCharArray())

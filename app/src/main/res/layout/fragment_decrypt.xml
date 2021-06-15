@@ -97,8 +97,9 @@
             <ProgressBar
                 android:id="@+id/progressBarDecrypt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_height="100sp"
+                android:layout_marginTop="@dimen/encrypt_vertical"
+                android:indeterminateDrawable="@drawable/progress_bar_circle"
                 android:visibility="@{viewmodel.decrypt ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +111,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/decrypt_vertical"
+                android:layout_marginBottom="@dimen/decrypt_vertical"
                 android:text='@{"Размер файла: " + viewmodel.fileSize}'
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBarDecrypt" />

@@ -81,7 +81,7 @@ class Encrypt(
             metaData.certificate = pair.second
         }
         if (cipherPasswordFlag)
-            if (certificateName.isNullOrEmpty()) throw MyException("Выберите сертификат для шифрования пароля!")
+            if (certificateName.isNullOrEmpty() || certificateName == "Выберите сертификат") throw MyException("Выберите сертификат для шифрования пароля!")
             else metaData.cipherPassword = cipherPasswordToFile(secretKey, certificateName)
         file.writeFile(
             "$pathToCipherFiles${file.fileName(fileName)}$Crypto",
@@ -90,6 +90,7 @@ class Encrypt(
         if (deleteFile) file.deleteFile(fileName)
     }
 
+    @Throws(Exception::class)
     private fun cipherPassword(secretKey: javax.crypto.SecretKey): String {
         val certificate = keyStore.getCertificate(Certificate + mpei.vkr.Constants.SecretKey)
         val cipherKey = secretKeyGenerator.getCipherSecretKey(secretKey, certificate)
@@ -102,6 +103,7 @@ class Encrypt(
         return alias
     }
 
+    @kotlin.jvm.Throws(Exception::class)
     private fun cipherPasswordToFile(secretKey: javax.crypto.SecretKey, alias: String): ByteArray {
         val certificate = keyStore.getCertificate(alias)
         return secretKeyGenerator.getCipherSecretKey(secretKey, certificate)

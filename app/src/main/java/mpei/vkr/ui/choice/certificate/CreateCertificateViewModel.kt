@@ -4,17 +4,16 @@ package mpei.vkr.ui.choice.certificate
 
 import android.preference.PreferenceManager
 import android.provider.Settings.Secure.ANDROID_ID
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.*
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import kotlinx.coroutines.*
-import mpei.vkr.Constants.*
+import mpei.vkr.Constants.Certificate
+import mpei.vkr.Constants.PrivateKey
+import mpei.vkr.Constants.SHA256withRSA
+import mpei.vkr.Constants.SecretKey
 import mpei.vkr.Crypto.Algorithms
 import mpei.vkr.Others.KeyStoreClass
 import mpei.vkr.Others.ToastShow
-import mpei.vkr.R
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.x509.X509V3CertificateGenerator
 import java.math.BigInteger
@@ -46,7 +45,6 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
             val sp = PreferenceManager.getDefaultSharedPreferences(view.context)
             createCertificates(sp.getString(mpei.vkr.Constants.MasterKey, "")!!)
             toast.suspendShow(view.context, "Сертификаты успешно созданы!")
-            findNavController(view.findFragment()).navigate(R.id.action_createCertificateFragment_to_nav_home)
         } catch (e: Exception) {
             toast.suspendShow(view.context, e.message!!)
         }
@@ -65,7 +63,6 @@ class CreateCertificateViewModel : ViewModel(), CoroutineScope, LifecycleObserve
 
     private suspend fun setProgress() {
         withContext(Dispatchers.Main) { _progress.value = _progress.value!! + 1 }
-        Log.d(LOG_TAG, _progress.value!!.toString())
     }
 
     override val coroutineContext: CoroutineContext

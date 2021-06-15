@@ -101,7 +101,7 @@
                 android:layout_marginStart="@dimen/decrypt_horizontal"
                 android:layout_marginTop="@dimen/decrypt_vertical"
                 android:layout_marginEnd="@dimen/decrypt_horizontal"
-                android:visibility='@{viewmodel.cipherPassword ? View.GONE: View.VISIBLE}'
+                android:visibility='@{viewmodel.cipherPassword ? View.VISIBLE: View.GONE}'
                 android:text="@{viewmodel.certificate}"
                 android:onClick="@{(view) -> viewmodel.chooseCertificate(view)}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,8 +117,7 @@
                 android:visibility="@{viewmodel.encrypt ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewChooseCertificate"
-                tools:foregroundTint="#FF0000" />
+                app:layout_constraintTop_toBottomOf="@id/textViewChooseCertificate" />
 
             <TextView
                 android:id="@+id/textViewFileSize"
@@ -126,8 +125,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/encrypt_vertical"
+                android:layout_marginBottom="@dimen/encrypt_vertical"
                 android:gravity="center"
                 android:text='@{"Размер файла: " + viewmodel.fileSize}'
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progressBarDecrypt" />
