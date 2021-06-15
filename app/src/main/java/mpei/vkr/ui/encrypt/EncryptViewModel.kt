@@ -31,7 +31,7 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
         sp.getString(CipherAlgorithm, AES)!!,
         sp.getInt(CipherCount, 1),
         sp.getInt(KeySize, 32),
-        sp.getBoolean(UseMasterKey, true),
+        sp.getBoolean(UseMasterKey, false),
         sp.getString(SignatureAlgorithm, SHA256withRSA)!!
     )
     private val _password1 = MutableLiveData("")
@@ -90,10 +90,12 @@ class EncryptViewModel(application: Application) : AndroidViewModel(application)
             toast.suspendShow(view.context, "Файл зашифрован!")
         } catch (e: MyException) {
             toast.suspendShow(view.context, e.message!!)
+        } catch (e: java.lang.NullPointerException) {
+            toast.suspendShow(view.context, "Создайте сертификатыи закрытые ключи!")
         } catch (e: Exception) {
             println(e.message!!)
             Log.d(LOG_TAG, e.message!!)
-            Log.d(LOG_TAG, e.localizedMessage)
+            Log.d(LOG_TAG, e.fillInStackTrace().toString())
         } finally {
             encryptProgressBar(false)
         }

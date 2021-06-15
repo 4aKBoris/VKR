@@ -10,6 +10,7 @@ import java.security.cert.Certificate
 
 class SignatureFile(private val signatureAlgorithm: String) {
 
+    @Throws(Exception::class)
     fun getSignature(arr: ByteArray, keyStore: KeyStoreClass): Pair<ByteArray, ByteArray> {
         val privateKeyEntry = keyStore.getPrivateKeyEntry(PrivateKey + signatureAlgorithm)
         val signature = Signature.getInstance(signatureAlgorithm, BouncyCastleProvider())

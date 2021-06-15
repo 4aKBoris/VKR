@@ -2,19 +2,15 @@
 
 package mpei.vkr
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Environment.getExternalStorageDirectory
 import android.os.StatFs
 import android.preference.PreferenceManager.getDefaultSharedPreferences
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -46,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val p = Permissions()
+        p.requestMultiplePermissions(this, PERMISSION_REQUEST_CODE)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -75,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 .findViewById<View>(
                     R.id.switch_master_key
                 ) as Switch
+        switch.isChecked = sp.getBoolean(UseMasterKey, false)
         switch.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().apply {
                 putBoolean(UseMasterKey, isChecked)
@@ -82,25 +81,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val p = Permissions()
-        p.requestMultiplePermissions(this, PERMISSION_REQUEST_CODE)
-
         val masterKey = MasterKey(password).getMasterKey()
         sp.edit().apply {
             putString(MasterKey, masterKey)
             apply()
+            binding.root.invalidate()
         }
         if (!File(PATH_KEY_STORE).exists()) createKeyStore(masterKey.toCharArray())
-
-        val permissionStatus =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-        Log.d("Права", permissionStatus.toString())
-
-        createDir("VKR")
-        createDir("VKR/CipherFiles")
-        createDir("VKR/ClearFiles")
-        createDir("VKR/Certificates")
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -132,15 +119,6 @@ class MainActivity : AppCompatActivity() {
             val freeSpace = String.format(rule, statFs.freeBytes.toDouble() / TEN)
             val fullSpace = String.format(rule, statFs.totalBytes.toDouble() / TEN)
             return "Свободно $freeSpace / $fullSpace ГБ"
-        }
-
-        private fun createDir(name: String): File? {
-            val baseDir: File?
-            baseDir = File(path)
-            val folder = File(baseDir, name)
-            if (folder.exists()) return folder
-            if (folder.isFile) folder.delete()
-            return if (folder.mkdirs()) folder else getExternalStorageDirectory()
         }
 
         private fun createKeyStore(password: CharArray) {

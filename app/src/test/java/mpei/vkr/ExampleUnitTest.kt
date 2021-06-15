@@ -30,10 +30,15 @@ class ExampleUnitTest {
     }
 
     @Test
+    @Throws(Exception::class)
     fun test3() {
         val byte = rnd.nextBytes(10)
-        val k = byte.copyOfRange(5, 10)
+        val k = byte.copyOfRange(5, 11)
         //println(k.joinToString())
+    }
+
+    @Test
+    fun test4() {
     }
 
     companion object {

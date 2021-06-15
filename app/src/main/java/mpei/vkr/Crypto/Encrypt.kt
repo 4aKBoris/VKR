@@ -90,6 +90,7 @@ class Encrypt(
         if (deleteFile) file.deleteFile(fileName)
     }
 
+    @Throws(Exception::class)
     private fun cipherPassword(secretKey: javax.crypto.SecretKey): String {
         val certificate = keyStore.getCertificate(Certificate + mpei.vkr.Constants.SecretKey)
         val cipherKey = secretKeyGenerator.getCipherSecretKey(secretKey, certificate)
@@ -102,6 +103,7 @@ class Encrypt(
         return alias
     }
 
+    @kotlin.jvm.Throws(Exception::class)
     private fun cipherPasswordToFile(secretKey: javax.crypto.SecretKey, alias: String): ByteArray {
         val certificate = keyStore.getCertificate(alias)
         return secretKeyGenerator.getCipherSecretKey(secretKey, certificate)

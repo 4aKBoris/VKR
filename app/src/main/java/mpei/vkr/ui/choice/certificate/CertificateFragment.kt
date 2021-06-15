@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import mpei.vkr.Others.Folder
 import mpei.vkr.databinding.CertificateFragmentBinding
 
 class CertificateFragment : Fragment() {
@@ -39,6 +40,7 @@ class CertificateFragment : Fragment() {
         binding.buttonImport.setOnClickListener { viewModel.import() }
         binding.buttonExport.setOnClickListener { viewModel.export(binding.root.context) }
         binding.floatingActionButton.setOnClickListener { viewModel.createCertificate(this) }
+        Folder()
         return binding.root
     }
 

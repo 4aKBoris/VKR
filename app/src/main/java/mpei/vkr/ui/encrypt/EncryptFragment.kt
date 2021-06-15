@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import mpei.vkr.Others.Folder
 import mpei.vkr.databinding.FragmentEncryptBinding
 
 class EncryptFragment : Fragment() {
@@ -36,6 +37,7 @@ class EncryptFragment : Fragment() {
             intent.type = "file/*"
             startActivityForResult(intent, PICK_FILE_RESULT_CODE)
         }
+        Folder()
         return binding.root
     }
 
