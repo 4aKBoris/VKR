@@ -8,9 +8,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mpei.vkr.Constants.path
 import mpei.vkr.Others.FileClass
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.security.KeyStore
 import kotlin.random.Random
 
 /**
@@ -37,10 +39,8 @@ class ExampleInstrumentedTest {
 
     @Test
     fun Test2() {
-        val file = FileClass()
-        GlobalScope.launch {
-            val byte = file.readFileFirstBytes(path + "Бабин - Лаборатория хакера.pdf", 3000)
-        }
+        val keyStore = KeyStore.getInstance("jks", BouncyCastleProvider())
+        keyStore.load(null, "dwadwadwa".toCharArray())
     }
 
     companion object {

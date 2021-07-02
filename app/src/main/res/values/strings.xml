@@ -10,38 +10,27 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="enter_master_key">Ввод мастер ключа</string>
-    <string name="enter_master_key_2">Введите мастер ключ</string>
-    <string name="repeat_master_key">Повторите мастер ключ</string>
+    <string name="enter_master_key">Ввод мастер-пароля</string>
+    <string name="enter_master_key_2">Введите мастер-пароль</string>
+    <string name="repeat_master_key">Повторите мастер-пароль</string>
     <string name="confirm">Подтвердить</string>
     <string name="OK">ОК</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_page">Главная страница</string>
     <string name="encrypt_files">Шифрование файлов</string>
     <string name="decrypt_files">Расшифрование файлов</string>
     <string name="settings">Настройки</string>
-    <string name="master_key">Мастер ключ</string>
+    <string name="master_key">Мастер пароль</string>
     <string name="encrypt">Зашифровать</string>
     <string name="enter_password">Введите пароль</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="decrypt">Расшифровать</string>
-    <string name="requirements_for_master_key">Требования к мастер-ключу</string>
+    <string name="requirements_for_master_key">Требования к мастер-паролю</string>
     <string name="little_letters">Использовать строчные буквы?</string>
     <string name="big_letters">Использовать заглавные буквы?</string>
     <string name="special_symbols">Использовать специальные символы?</string>
-    <string name="change_master_key">Сменить мастер ключ</string>
-    <string name="hint_for_change_master_key">Для смены мастер-ключа необходимо знать предыдущий мастрер-ключ</string>
-    <string name="title_activity_change_master_key">Смена мастер ключа</string>
+    <string name="change_master_key">Сменить мастер-пароль</string>
+    <string name="hint_for_change_master_key">Для смены мастер-пароля необходимо знать предыдущий мастрер-пароль</string>
+    <string name="title_activity_change_master_key">Смена мастер-пароля</string>
     <string name="_1">1</string>
     <string name="_256">256</string>
     <string name="KeySize">Длина ключа (байт)</string>

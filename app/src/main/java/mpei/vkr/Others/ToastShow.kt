@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 internal class ToastShow {
 
     fun show(context: Context, message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     suspend fun suspendShow(context: Context, message: String) =

@@ -1,28 +1,23 @@
 package mpei.vkr.Crypto
 
-import android.util.Log
-import mpei.vkr.Constants.LOG_TAG
-import mpei.vkr.Others.KeyStoreClass
+import java.security.PrivateKey
+import java.security.PublicKey
 import java.security.SecureRandom
-import java.security.cert.Certificate
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
 open class CipherPassword {
 
-    protected fun encrypt(secretKey: SecretKey, certificate: Certificate): ByteArray {
+    protected fun encrypt(secretKey: SecretKey, publicKey: PublicKey): ByteArray {
         val password = secretKey.encoded
-        cipher.init(Cipher.ENCRYPT_MODE, certificate, secureRandom)
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey, secureRandom)
         return cipher.doFinal(password)
     }
 
-    protected fun decrypt(key: ByteArray, keyStore: KeyStoreClass, cipherAlgorithm: String, keySize: Int): SecretKey {
-        val privateKey = keyStore.getPrivateKey()
+    protected fun decrypt(key: ByteArray, privateKey: PrivateKey, cipherAlgorithm: String, keySize: Int): SecretKey {
         cipher.init(Cipher.DECRYPT_MODE, privateKey, secureRandom)
-        Log.d(LOG_TAG, keySize.toString())
         val key1 = cipher.doFinal(key)
-        Log.d(LOG_TAG, key1.size.toString())
         return SecretKeySpec(key1, 0, keySize, cipherAlgorithm)
     }
 

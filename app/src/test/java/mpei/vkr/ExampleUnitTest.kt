@@ -33,7 +33,7 @@ class ExampleUnitTest {
     @Throws(Exception::class)
     fun test3() {
         val byte = rnd.nextBytes(10)
-        val k = byte.copyOfRange(5, 11)
+        //val k = byte.copyOfRange(5, 11)
         //println(k.joinToString())
     }
 

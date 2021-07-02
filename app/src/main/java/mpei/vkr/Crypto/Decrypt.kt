@@ -43,7 +43,7 @@ class Decrypt(
             if (certificate.isNullOrEmpty()) throw MyException("Выберите сертификат!")
             val sign = SignatureFile(metaData.signatureAlgorithm)
             val cert = keyStore.getCertificate(certificate)
-            val verify = sign.verify(metaData.cipherText, cert, metaData.signData!!)
+            val verify = sign.verify(metaData.cipherText, cert.publicKey, metaData.signData!!)
             if (!verify) throw MyException("Цифровая подпись не прошла проверку!")
         }
         val secretKey = if (metaData.cipherPassword != null) secretKeyClass.getSecretKeyDecrypt(metaData.cipherPassword!!, keyStore)

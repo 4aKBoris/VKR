@@ -10,7 +10,9 @@ import android.view.View
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import mpei.vkr.Constants.*
+import mpei.vkr.Constants.ARG_MASTER_KEY
+import mpei.vkr.Constants.CountHours
+import mpei.vkr.Constants.CountTrying
 import mpei.vkr.Crypto.MasterKey
 import mpei.vkr.Exception.MyException
 import mpei.vkr.MainActivity
@@ -63,7 +65,7 @@ class LoginViewModel2(application: Application) : AndroidViewModel(application),
     private suspend fun exception(message: String) {
         change(false)
         warningFragment.visible(message)
-        toast.show(context, "Осталось ${textTrying()} ввода мастер ключа!")
+        toast.show(context, "Осталось ${textTrying()} ввода мастер-пароля!")
         if (countTrying == 0) {
             toast.show(context, "Приложение блокируется на 1 день!")
             sp.edit().apply {
@@ -124,7 +126,7 @@ class LoginViewModel2(application: Application) : AndroidViewModel(application),
 
         @SuppressLint("StaticFieldLeak")
         private val warningFragment = WarningFragment()
-        private const val incorrect = "Мастер ключ введён неверно!"
+        private const val incorrect = "Мастер-пароль введён неверно!"
         private const val Trying = "Trying"
         private const val TimeTrying = "TimeTrying"
     }

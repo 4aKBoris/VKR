@@ -1,11 +1,8 @@
 package mpei.vkr.ui.settings.items.masterkey.change
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.os.Message
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +12,6 @@ import kotlinx.coroutines.*
 import mpei.vkr.Constants.ARG_MASTER_KEY
 import mpei.vkr.Crypto.MasterKey
 import mpei.vkr.Exception.MyException
-import mpei.vkr.MainActivity
 import mpei.vkr.R
 import mpei.vkr.ui.login.WarningFragment
 import kotlin.coroutines.CoroutineContext
@@ -35,13 +31,13 @@ class OldMasterKeyViewModel : ViewModel(), CoroutineScope {
         _warning.value = false
         try {
             val masterKey = MasterKey(_password.value!!)
-            if (!masterKey.isCorrect()) throw MyException("Мастер ключ введён неверно!")
+            if (!masterKey.isCorrect()) throw MyException("Мастер-пароль введён неверно!")
             findNavController(view.findFragment()).navigate(R.id.action_oldMasterKeyFragment_to_newMasterKeyFragment,
             Bundle().apply { putString(ARG_MASTER_KEY, _password.value!!) })
         } catch (e: MyException) {
             changeVisible(e.message!!)
         } catch (e: Exception) {
-            changeVisible("Мастер ключ введён неверно!")
+            changeVisible("Мастер-пароль введён неверно!")
         }
     }
 

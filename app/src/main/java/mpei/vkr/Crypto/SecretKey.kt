@@ -1,5 +1,6 @@
 package mpei.vkr.Crypto
 
+import mpei.vkr.Constants.SHA512
 import mpei.vkr.Others.KeyStoreClass
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.MessageDigest
@@ -28,13 +29,13 @@ class SecretKey(private val cipherAlgorithm: String, private val keySize: Int): 
         return Pair(SecretKeySpec(key, 0, keySize, cipherAlgorithm), salt)
     }
 
-    fun getCipherSecretKey(secretKey: SecretKey, certificate: Certificate) = encrypt(secretKey, certificate)
+    fun getCipherSecretKey(secretKey: SecretKey, certificate: Certificate) = encrypt(secretKey, certificate.publicKey)
 
-    fun getSecretKeyDecrypt(key: ByteArray, keyStore: KeyStoreClass) = decrypt(key, keyStore, cipherAlgorithm, keySize)
+    fun getSecretKeyDecrypt(key: ByteArray, keyStore: KeyStoreClass) = decrypt(key, keyStore.getPrivateKey(), cipherAlgorithm, keySize)
 
     fun getSecretKeyDecrypt(password: String, hashAlgorithm: String, hashCount: Int, salt: ByteArray?): SecretKey {
         val key = messageDigest(password.toByteArray(Charsets.UTF_8), hashAlgorithm, hashCount, salt)
-        return SecretKeySpec(key, 0, keySize * bit, cipherAlgorithm)
+        return SecretKeySpec(key, 0, keySize, cipherAlgorithm)
     }
 
     companion object {
@@ -47,7 +48,14 @@ class SecretKey(private val cipherAlgorithm: String, private val keySize: Int): 
                 digest.update(password)
                 if (salt != null) digest.update(salt)
             }
-            return digest.digest()
+            return correctLength(digest.digest())
+        }
+
+        private fun correctLength(key: ByteArray): ByteArray {
+            val digest = MessageDigest.getInstance(SHA512, BouncyCastleProvider())
+            digest.update(key)
+            val hash = digest.digest()
+            return hash.plus(hash).plus(hash).plus(hash)
         }
     }
 }

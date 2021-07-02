@@ -1,31 +1,26 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 
 package mpei.vkr.ui.home
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
+import android.app.Activity
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import mpei.vkr.Constants.ARG_MASTER_KEY
-import mpei.vkr.MainActivity
-import mpei.vkr.R
+import mpei.vkr.Constants.LOG_TAG
+import mpei.vkr.Others.FileClass
 import mpei.vkr.databinding.FragmentHomeBinding
-import java.security.KeyStore
+import java.io.File
 
 
 class HomeFragment : Fragment() {
@@ -57,43 +52,31 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        homeViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         notificationManager =
             requireActivity().applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         binding.button2.setOnClickListener {
-            val intent = Intent()
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            val pendingIntent = PendingIntent.getActivity(
-                getApplicationContext(),
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-
-            val notificationBuilder: NotificationCompat.Builder =
-                NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                    .setAutoCancel(false)
-                    .setSmallIcon(R.drawable.ic_lock)
-                    .setWhen(System.currentTimeMillis())
-                    .setContentIntent(pendingIntent)
-                    .setContentTitle("Title")
-                    .setContentText("text")
-                    .setPriority(PRIORITY_HIGH)
-
-            createChannelIfNeeded(notificationManager!!)
-            notificationManager!!.notify(NOTIFY_ID, notificationBuilder.build())
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "file/*"
+            startActivityForResult(intent, PICK_FILE_RESULT_CODE)
         }
         return root
     }
 
-    private fun createChannelIfNeeded(manager: NotificationManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel =
-                NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
-            manager.createNotificationChannel(notificationChannel)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PICK_FILE_RESULT_CODE -> if (resultCode == Activity.RESULT_OK) {
+                val content_describer: Uri? = data!!.data
+                val src: String? = content_describer!!.path
+                val source = File(src)
+                //Log.d("src is ", source.)
+                val filename: String? = content_describer.lastPathSegment
+                Log.d(LOG_TAG, filename!!)
+            }
         }
     }
 
@@ -103,7 +86,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        private const val NOTIFY_ID = 101
-        private const val CHANNEL_ID = "CHANNEL_ID"
+        private const val PICK_FILE_RESULT_CODE = 1
+        private val file = FileClass()
     }
 }

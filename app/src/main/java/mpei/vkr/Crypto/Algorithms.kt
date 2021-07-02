@@ -27,6 +27,8 @@ internal class Algorithms {
 
     fun typeCipher(cipherAlgorithm: String) = cipherAlgorithm in cipherStream
 
+    fun isHaveIV(cipherAlgorithm: String) = cipherAlgorithm in cipherStreamIV
+
     companion object {
 
         private val hashAlgorithms = listOf(
@@ -98,7 +100,6 @@ internal class Algorithms {
             "IDEA",
             "Grain128",
             "Noekeon",
-            "Rijndael",
             "SEED",
             "Shacal2",
             "Serpent",
@@ -119,7 +120,6 @@ internal class Algorithms {
             "Grainv1",
             "ARIA",
             "DSTU7624",
-            "GCM",
             "Threefish-256",
             "Threefish-512",
             "Threefish-1024",
@@ -154,6 +154,17 @@ internal class Algorithms {
             "Grain128",
             "Zuc128",
             "Zuc256"
+        )
+
+        private val cipherStreamIV = setOf(
+            "Grain128",
+            "HC128",
+            "HC256",
+            "ChaCha",
+            "Salsa20",
+            "XSalsa20",
+            "VMPC",
+            "Grainv1"
         )
 
         private val keySizeCipher = mapOf(

@@ -2,8 +2,6 @@
 
 package mpei.vkr.Crypto
 
-import android.util.Log
-import mpei.vkr.Constants.LOG_TAG
 import mpei.vkr.Exception.MyException
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.SecureRandom
@@ -38,30 +36,37 @@ class CipherFile(
             return cipher.doFinal(arr)
         }
 
-        private fun cipherInit(cipherAlgorithm: String, secretKey: SecretKey): Pair<Cipher, ByteArray?> {
-            return if (alg.typeCipher(cipherAlgorithm)) {
-                val cipher = Cipher.getInstance(cipherAlgorithm, BouncyCastleProvider())
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey, secureRandom)
-                Pair(cipher, null)
-            } else {
-                val cipher = Cipher.getInstance("$cipherAlgorithm/CBC/PKCS7Padding", BouncyCastleProvider())
-                val iv = secureRandom.generateSeed(alg.getIVSize(cipherAlgorithm))
-                Log.d(LOG_TAG, alg.getIVSize(cipherAlgorithm).toString())
+        private fun cipherInit(
+            cipherAlgorithm: String,
+            secretKey: SecretKey
+        ): Pair<Cipher, ByteArray?> {
+            val algorithm = if (alg.typeCipher(cipherAlgorithm)) cipherAlgorithm
+            else "$cipherAlgorithm/CBC/PKCS7Padding"
+            val cipher = Cipher.getInstance(algorithm, BouncyCastleProvider())
+            var iv: ByteArray? = null
+            if (alg.typeCipher(cipherAlgorithm) && !alg.isHaveIV(cipherAlgorithm)) cipher.init(
+                Cipher.ENCRYPT_MODE,
+                secretKey,
+                secureRandom
+            )
+            else {
+                iv = secureRandom.generateSeed(alg.getIVSize(cipherAlgorithm))
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey, IvParameterSpec(iv), secureRandom)
-                Pair(cipher, iv)
             }
+            return Pair(cipher, iv)
         }
 
-        private fun cipherInit(cipherAlgorithm: String, secretKey: SecretKey, iv: ByteArray?): Cipher {
-            return if (alg.typeCipher(cipherAlgorithm)) {
-                val cipher = Cipher.getInstance(cipherAlgorithm, BouncyCastleProvider())
-                cipher.init(Cipher.DECRYPT_MODE, secretKey, secureRandom)
-                cipher
-            } else {
-                val cipher = Cipher.getInstance("$cipherAlgorithm/CBC/PKCS7Padding", BouncyCastleProvider())
-                cipher.init(Cipher.DECRYPT_MODE, secretKey, IvParameterSpec(iv), secureRandom)
-                cipher
-            }
+        private fun cipherInit(
+            cipherAlgorithm: String,
+            secretKey: SecretKey,
+            iv: ByteArray?
+        ): Cipher {
+            val algorithm = if (alg.typeCipher(cipherAlgorithm)) cipherAlgorithm
+            else "$cipherAlgorithm/CBC/PKCS7Padding"
+            val cipher = Cipher.getInstance(algorithm, BouncyCastleProvider())
+            if (iv == null) cipher.init(Cipher.DECRYPT_MODE, secretKey, secureRandom)
+            else cipher.init(Cipher.DECRYPT_MODE, secretKey, IvParameterSpec(iv), secureRandom)
+            return cipher
         }
     }
 }
